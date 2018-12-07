@@ -1,6 +1,6 @@
 package com.data.integration;
 
-import com.data.integration.domain.Deed;
+import com.data.integration.domain.CAMAPayload;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class PropertyController {
+public class CAMAController {
+
+    @Autowired
+    CAMAService camaService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity postData(@RequestBody Deed deed) {
-
+    public ResponseEntity postData(@RequestBody CAMAPayload camaPayload) {
+        boolean successful = camaService.process(camaPayload);
         return null;
 
     }

@@ -12,3 +12,4 @@ spring:
       jdbc:
         driver:
           OracleDriver
+  salt:

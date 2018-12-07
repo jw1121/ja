@@ -27,7 +27,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "My REST API",
+                "CAMA API",
                 "Some custom description of API.",
                 "API TOS",
                 "Terms of service",

@@ -4,10 +4,11 @@ import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PropertyRepository {
+public class CAMARepository {
 
     @Bean
     DataSource dataSource() throws SQLException {
@@ -19,5 +20,19 @@ public class PropertyRepository {
         dataSource.setImplicitCachingEnabled(true);
         dataSource.setFastConnectionFailoverEnabled(true);
         return dataSource;
+    }
+
+
+    public boolean insertOWNDAT() {
+        return false;
+
+    }
+
+    public boolean insertOWNMLT() {
+        return false;
+    }
+
+    public boolean insertSALE() {
+        return false;
     }
 }
