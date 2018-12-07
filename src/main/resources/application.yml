@@ -1,0 +1,14 @@
+# Drops existing tables, recreates them and executes import.sql
+spring:
+  # Settings for the oracle connection
+  datasource:
+    url:
+      jdbc:oracle:thin:@localhost:1521:xe
+    username:
+      <your username>
+    password:
+      <your password>
+    driver-class-oracle:
+      jdbc:
+        driver:
+          OracleDriver
