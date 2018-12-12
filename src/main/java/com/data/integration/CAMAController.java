@@ -1,6 +1,7 @@
 package com.data.integration;
 
 import com.data.integration.domain.CAMAPayload;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

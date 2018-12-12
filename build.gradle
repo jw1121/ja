@@ -20,6 +20,9 @@ bootJar {
 
 repositories {
     mavenCentral()
+    
+
+    
 }
 
 sourceCompatibility = 1.8
@@ -29,6 +32,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "io.springfox:springfox-swagger2:2.9.2"
     compile "io.springfox:springfox-swagger-ui:2.9.2"
-    compile group: 'com.oracle', name: 'ojdbc8', version: '12.2.0.1'
+    //compile group: 'com.oracle', name: 'ojdbc8', version: '12.2.0.1'
+    compile files('./lib/ojdbc8-full/ojdbc8.jar')
     testCompile 'org.springframework.boot:spring-boot-starter-test' 
 }

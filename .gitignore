@@ -25,4 +25,5 @@ hs_err_pid*
 .idea/**
 out
 src/main/main.iml
-.gradle
+build
+.gradle/

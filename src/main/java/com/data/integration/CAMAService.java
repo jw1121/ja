@@ -1,6 +1,7 @@
 package com.data.integration;
 
 import com.data.integration.domain.CAMAPayload;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
