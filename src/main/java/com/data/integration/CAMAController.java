@@ -17,6 +17,7 @@ public class CAMAController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity postData(@RequestBody CAMAPayload camaPayload) {
+
         boolean successful = camaService.process(camaPayload);
         return null;
 
