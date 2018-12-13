@@ -11,10 +11,7 @@ import java.sql.SQLException;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CAMARepository {
-
-    //C:\Oracle12c\product\12.1.0\client_2\network\admin\
-
+public class CamaRepository {
 
     String dbURL = "jdbc:oracle:thin:@ENTRY_FROM_TNSNAMES";
     String username = "ja_api";
