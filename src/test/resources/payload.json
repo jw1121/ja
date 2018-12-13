@@ -1,0 +1,91 @@
+{
+  "BOOK": 5467,
+  "PAGE": 105,
+  "STAMPVAL": 0.7,
+  "PRICE": 100,
+  "SALEDT": "2018-12-05",
+  "RECORDDT": "2018-12-07",
+  "INSTRTYP": "WD",
+  "NOPAR": 1,
+  "SOURCE": "D",
+  "STEB": null,
+  "TAXYR": 2019,
+  "parcels": [
+    {
+      "PARID": "110203   0000",
+      "SALETYPE": "V"
+    }
+  ],
+  "mailing_address": {
+    "CAREOF": "1ST NATIONAL BANK",
+    "ADDRTYPE": "S",
+    "ADRNO": 125,
+    "ADRADD": null,
+    "ADRDIR": "NW",
+    "ADRSTR": "HAWTHORNE",
+    "ADRSUF": "ST",
+    "ADRSUF2": "E",
+    "CITYNAME": "PALO ALTO",
+    "STATECODE": "CA",
+    "COUNTRY": null,
+    "POSTALCODE": null,
+    "UNITDESC": "APT",
+    "UNITNO": "101A",
+    "ADDR1": null,
+    "ADDR2": null,
+    "ADDR3": null,
+    "ZIP1": "94301",
+    "ZIP2": "1234",
+    "USER4": "9"
+  },
+  "owners": [
+    {
+      "OWNSEQ": 0,
+      "OWN1": "NOLL TRAVIS A",
+      "OWN2": null,
+      "PCTOWN": 0.25,
+      "OWNTYPE1": "IN",
+      "OWNTYPE2": "LE",
+      "OWNTYPE3": null,
+      "OWNTYPE4": null,
+      "HIDENAME": "N",
+      "MARSTAT": "S"
+    },
+    {
+      "OWNSEQ": 1,
+      "OWN1": "KHOJA IMRAN KARIM",
+      "OWN2": null,
+      "PCTOWN": 0.25,
+      "OWNTYPE1": "IN",
+      "OWNTYPE2": "JT",
+      "OWNTYPE3": "RM",
+      "OWNTYPE4": null,
+      "HIDENAME": "N",
+      "MARSTAT": "S"
+    },
+    {
+      "OWNSEQ": 2,
+      "OWN1": "IM ERIC",
+      "OWN2": null,
+      "PCTOWN": 0.25,
+      "OWNTYPE1": "IN",
+      "OWNTYPE2": "JT",
+      "OWNTYPE3": "RM",
+      "OWNTYPE4": null,
+      "HIDENAME": "N",
+      "MARSTAT": "S"
+    },
+    {
+      "OWNSEQ": 3,
+      "OWN1": "ECEMIS IHSAN",
+      "OWN2": null,
+      "PCTOWN": 0.25,
+      "OWNTYPE1": "IN",
+      "OWNTYPE2": "JT",
+      "OWNTYPE3": "RM",
+      "OWNTYPE4": null,
+      "HIDENAME": "N",
+      "MARSTAT": "S"
+    }
+  ]
+}
