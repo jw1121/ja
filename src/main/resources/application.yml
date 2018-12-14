@@ -14,6 +14,14 @@ spring:
           OracleDriver
   salt:
 
-  jackson:
-    mapper:
-      accept_case_insensitive_properties: true
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      base-path: /
+
+jackson:
+  mapper:
+    accept_case_insensitive_properties: true
