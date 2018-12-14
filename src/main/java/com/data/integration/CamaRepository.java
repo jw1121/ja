@@ -13,24 +13,34 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CamaRepository {
 
-    String dbURL = "jdbc:oracle:thin:@ENTRY_FROM_TNSNAMES";
-    String username = "ja_api";
-    String password = "Propapi$6200";
-    String url = "jdbc:oracle:thin:@TEST";
+    static String username = "ja_api";
+    static String password = "Propapi$6200";
+    static String url = "jdbc:oracle:thin:@TEST";
+    static String tns = "C:/Oracle12c/product/12.1.0/client_2/network/admin";
 
+    Connection connection = null;
 
-    @Bean
-    DataSource dataSource() throws SQLException {
+    public void dbConn(String[] args) {
+        try {
+            System.setProperty("oracle.net.tns_admin", tns);
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            connection = DriverManager.getConnection(url, username, password);
 
-        OracleDataSource dataSource = new OracleDataSource();
-        dataSource.setUser(username);
-        dataSource.setPassword(password);
-        dataSource.setURL(url);
-        dataSource.setImplicitCachingEnabled(true);
-        dataSource.setFastConnectionFailoverEnabled(true);
-        return dataSource;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your Oracle JDBC Driver?");
+            e.printStackTrace();
+            return;
+
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+            return;
+        }
+
+        if (connection == null) {
+            System.out.println("Failed to make connection!");
+        }
     }
-
 
     Connection conect() throws Exception {
         System.setProperty("oracle.net.tns_admin", "C:/Oracle12c/product/12.1.0/client_2/network/admin");
@@ -38,8 +48,6 @@ public class CamaRepository {
         Class.forName("oracle.jdbc.OracleDriver");
        return DriverManager.getConnection(url, username, password);
     }
-
-    Connection connection = null;
 
     public boolean insertOWNDAT() {
         return false;
