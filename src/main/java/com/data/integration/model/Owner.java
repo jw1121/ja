@@ -1,10 +1,12 @@
 package com.data.integration.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class Owner implements Serializable {
     private final static long serialVersionUID = 5656010980952910334L;
 
+    @NotNull
     private int ownseq;
     private String own1;
     private Object own2;

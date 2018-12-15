@@ -1,24 +1,30 @@
 package com.data.integration.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
 public class Cama implements Serializable {
     private final static long serialVersionUID = -189947844355325901L;
 
+    @NotNull
     private int book;
     private int page;
     private double stampval;
     private int price;
+    @NotNull
     private String saledt;
     private String recorddt;
     private String instrtyp;
     private int nopar;
     private String source;
     private Object steb;
+    @NotNull
     private int taxyr;
+    @NotNull
     private List<Parcel> parcels = null;
     private Mailing_Address mailing_Address;
+    @NotNull
     private List<Owner> owners = null;
 
     public int getBook() {

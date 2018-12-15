@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/")
 public class CamaController {
@@ -16,7 +18,7 @@ public class CamaController {
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     @ApiOperation("Record seller buyer info")
     public @ResponseBody String createPerson(@ApiParam("Came data.")
-                               @RequestBody Cama payload) {
+                               @Valid @RequestBody Cama payload) {
 
         camaService.process(payload);
         return "accepted";
