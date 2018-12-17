@@ -1,5 +1,6 @@
 package com.data.integration;
 
+import com.data.integration.config.CamaConfig;
 import com.data.integration.model.Cama;
 import com.data.integration.model.Mailing_Address;
 import com.data.integration.model.Owner;
@@ -29,7 +30,7 @@ public class CamaRepository {
         try {
             System.setProperty("oracle.net.tns_admin", tns);
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(CamaConfig.db_url, CamaConfig.db_user, CamaConfig.db_pw);
             statement = connection.createStatement();
         } catch (ClassNotFoundException e) {
             System.out.println("Where is your Oracle JDBC Driver?");
