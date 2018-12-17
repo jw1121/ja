@@ -1,10 +1,10 @@
 package com.data.integration;
 
-import com.data.integration.config.CamaConfig;
 import com.data.integration.model.Cama;
 import com.data.integration.model.Mailing_Address;
 import com.data.integration.model.Owner;
 import com.data.integration.model.Parcel;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -17,20 +17,27 @@ public class CamaRepository {
     final static String OWNMLT = "INSERT INTO TEST.OWNMLT () values";
     final static String SALE = "INSERT INTO TEST.SALE () values";
 
-    static String username = "ja_api";
-    static String password = "Propapi$6200";
-    static String url = "jdbc:oracle:thin:@TEST";
+//    static String username = "ja_api";
+//    static String password = "Propapi$6200";
+//    static String url = "jdbc:oracle:thin:@TEST";
     static String tns = "C:/Oracle12c/product/12.1.0/client_2/network/admin";
 
     Connection connection = null;
     Statement statement = null;
     PreparedStatement preparedStatement = null;
 
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String user;
+    @Value("${spring.datasource.password}")
+    private String pass;
+
     public void dbConn() {
         try {
             System.setProperty("oracle.net.tns_admin", tns);
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            connection = DriverManager.getConnection(CamaConfig.db_url, CamaConfig.db_user, CamaConfig.db_pw);
+            connection = DriverManager.getConnection(url, user, pass);
             statement = connection.createStatement();
         } catch (ClassNotFoundException e) {
             System.out.println("Where is your Oracle JDBC Driver?");

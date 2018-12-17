@@ -12,7 +12,7 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class CamaController {
 
-    final static String CLIENTSECRET = "";
+    final static String CLIENTSECRET = "1";
     @Autowired
     CamaService camaService;
 

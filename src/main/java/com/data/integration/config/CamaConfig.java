@@ -1,14 +1,37 @@
 package com.data.integration.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
+@ConfigurationProperties(prefix="spring.datasource")
 public class CamaConfig {
 
-    @Value("${spring.datasource.url}")
-    public static String db_url;
-    @Value("${spring.datasource.username}")
-    public static String db_user;
-    @Value("${spring.datasource.password}")
-    public static String db_pw;
+    public static String url;
+    public static String username;
+    public static String password;
 
+    public static String getUrl() {
+        return url;
+    }
+
+    public static void setUrl(String url) {
+        CamaConfig.url = url;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        CamaConfig.username = username;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        CamaConfig.password = password;
+    }
 }

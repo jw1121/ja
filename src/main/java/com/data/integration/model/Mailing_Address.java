@@ -1,29 +1,50 @@
 package com.data.integration.model;
 
+import javax.validation.constraints.Max;
 import java.io.Serializable;
 
 public class Mailing_Address implements Serializable {
     private final static long serialVersionUID = -3264487308538166978L;
 
+    @Max(60)
     private String careof;
+    @Max(1)
     private String addrtype;
+    @Max(10)
     private int adrno;
+    @Max(6)
     private Object adradd;
+    @Max(2)
     private String adrdir;
+    @Max(30)
     private String adrstr;
+    @Max(8)
     private String adrsuf;
+    @Max(8)
     private String adrsuf2;
+    @Max(40)
     private String cityname;
+    @Max(2)
     private String statecode;
+    @Max(30)
     private Object country;
+    @Max(10)
     private Object postalcode;
+    @Max(10)
     private String unitdesc;
+    @Max(10)
     private String unitno;
+    @Max(80)
     private Object addr1;
+    @Max(80)
     private Object addr2;
+    @Max(80)
     private Object addr3;
+    @Max(80)
     private String zip1;
+    @Max(80)
     private String zip2;
+    @Max(20)
     private String user4;
 
     public String getCareof() {

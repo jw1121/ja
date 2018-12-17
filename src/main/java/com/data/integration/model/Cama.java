@@ -1,5 +1,6 @@
 package com.data.integration.model;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -8,16 +9,20 @@ public class Cama implements Serializable {
     private final static long serialVersionUID = -189947844355325901L;
 
     @NotNull
+    @Max(8)
     private int book;
+    @Max(8)
     private int page;
     private double stampval;
     private int price;
     @NotNull
     private String saledt;
     private String recorddt;
+    @Max(6)
     private String instrtyp;
     private int nopar;
     private String source;
+    @Max(3)
     private Object steb;
     @NotNull
     private int taxyr;

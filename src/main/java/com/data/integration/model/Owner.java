@@ -1,5 +1,6 @@
 package com.data.integration.model;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -11,11 +12,17 @@ public class Owner implements Serializable {
     private String own1;
     private Object own2;
     private double pctown;
+    @Max(3)
     private String owntype1;
+    @Max(3)
     private String owntype2;
+    @Max(3)
     private String owntype3;
+    @Max(3)
     private Object owntype4;
+    @Max(1)
     private String hidename;
+    @Max(1)
     private String marstat;
 
     public int getOwnseq() {
