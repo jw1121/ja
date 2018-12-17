@@ -2,16 +2,12 @@
 spring:
   # Settings for the oracle connection
   datasource:
-    url:
-      jdbc:oracle:thin:@TEST
-    username:
-      ja_api
-    password:
-      Propapi$6200
+    url: jdbc:oracle:thin:@TEST
+    username: ja_api
+    password: Propapi$6200
     driver-class-oracle:
       jdbc:
-        driver:
-          OracleDriver
+        driver: OracleDriver
   salt:
 
 server:
