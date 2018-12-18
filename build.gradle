@@ -14,15 +14,12 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'gs-rest-service'
+    baseName = 'ja-integration'
     version =  '0.1.0'
 }
 
 repositories {
     mavenCentral()
-    
-
-    
 }
 
 sourceCompatibility = 1.8
