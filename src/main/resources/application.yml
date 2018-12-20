@@ -10,11 +10,12 @@ spring:
   salt:
 
 server:
-  port: 8443
+  port: 443
   ssl:
+    enabled: true
     key-store: tmp.p12
     key-store-password: 123456
-    keyStoreType: PKJACS12
+    keyStoreType: PKCS12
     keyAlias: tomcat
 
 management:
