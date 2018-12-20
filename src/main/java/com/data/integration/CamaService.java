@@ -18,15 +18,23 @@ public class CamaService {
     @Autowired
     CamaRepository camaRepository;
 
-    public boolean process(Cama payload) {
+    public boolean LeonProcess(Cama payload) {
+        boolean insert = false;
+
         try {
             camaRepository.dbConn();
 
-            camaRepository.insertOWNDAT(payload);
-            camaRepository.insertOWNMLT(payload);
-            camaRepository.insertSALE(payload);
+//            camaRepository.checkOWNDAT(parid, taxyr);
+//            camaRepository.checkOWNMLT(parid, taxyr, ownseq);
+//            camaRepository.checkSALE();
 
-            camaRepository.run();
+            if(insert) {
+                camaRepository.insertOWNDAT(payload);
+                camaRepository.insertOWNMLT(payload);
+                camaRepository.insertSALE(payload);
+
+                camaRepository.run();
+            }
         } catch (SQLException e) {
             return false;
         }

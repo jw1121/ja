@@ -20,7 +20,7 @@ public class CamaRepository {
 //    static String username = "ja_api";
 //    static String password = "Propapi$6200";
 //    static String url = "jdbc:oracle:thin:@TEST";
-    static String tns = "C:/Oracle12c/product/12.1.0/client_2/network/admin";
+//    static String tns = "C:/Oracle12c/product/12.1.0/client_2/network/admin";
 
     Connection connection = null;
     Statement statement = null;
@@ -32,13 +32,16 @@ public class CamaRepository {
     private String user;
     @Value("${spring.datasource.password}")
     private String pass;
+    @Value("${spring.datasource.tns}")
+    private String tns;
+    @Value("${spring.datasource.object}")
+    private String object;
 
     public void dbConn() {
         try {
             System.setProperty("oracle.net.tns_admin", tns);
             Class.forName("oracle.jdbc.driver.OracleDriver");
             connection = DriverManager.getConnection(url, user, pass);
-            statement = connection.createStatement();
         } catch (ClassNotFoundException e) {
             System.out.println("Where is your Oracle JDBC Driver?");
             e.printStackTrace();
@@ -58,22 +61,24 @@ public class CamaRepository {
     public void run() throws SQLException {
 //        Statement statement = connection.createStatement();
 
-        statement.executeBatch();
-        statement.close();
+        preparedStatement.executeBatch();
+        preparedStatement.close();
         connection.close();
     }
 
     public String getNextSeq() throws SQLException {
-        ResultSet resultSet = statement.executeQuery("select saleseq.nextval from dual;");
+        ResultSet resultSet = statement.executeQuery("select ${object}.saleseq.nextval from dual;");
         String next = resultSet.getString(0);
         return next;
     }
+
 
     public void insertOWNDAT(Cama payload) throws SQLException {
         List<Owner> owners = payload.getOwners();
         List<Parcel> parcels = payload.getParcels();
         Mailing_Address address = payload.getMailing_Address();
 
+        preparedStatement = connection.prepareStatement("");
         parcels.get(0).getParid();
         payload.getTaxyr();
         payload.getBook();
@@ -112,8 +117,7 @@ public class CamaRepository {
         address.getZip2();
         address.getUser4();
 
-
-        statement.addBatch("");
+        preparedStatement.addBatch("");
     }
 
     public void insertOWNMLT(Cama payload) throws SQLException {

@@ -22,7 +22,7 @@ public class CamaController {
                                              @ApiParam("Came data.")
                                @Valid @RequestBody Cama payload) {
         if(CLIENTSECRET.equals(client)) {
-            camaService.process(payload);
+            camaService.LeonProcess(payload);
             return "accepted";
         } else {
             return "Unknown client. Dropping message.";

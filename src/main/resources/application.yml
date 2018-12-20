@@ -5,13 +5,17 @@ spring:
     url: jdbc:oracle:thin:@TEST
     username: ja_api
     password: Propapi$6200
-    driver-class-oracle:
-      jdbc:
-        driver: OracleDriver
+    tns: C:/Oracle12c/product/12.1.0/client_2/network/admin
+    object: test
   salt:
 
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    key-store: tmp.p12
+    key-store-password: 123456
+    keyStoreType: PKJACS12
+    keyAlias: tomcat
 
 management:
   endpoints:
