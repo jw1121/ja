@@ -1,0 +1,20 @@
+PARID      NOT NULL VARCHAR2(30)
+SALEDT     NOT NULL DATE
+STAMPVAL            NUMBER
+PRICE               NUMBER(10)
+SEQ        NOT NULL NUMBER(3)
+SALEKEY    NOT NULL NUMBER(8)
+BOOK                VARCHAR2(8)
+PAGE                VARCHAR2(8)
+OLDOWN              VARCHAR2(205)
+OWN1                VARCHAR2(205) 
+SOURCE              VARCHAR2(1)
+SALETYPE            VARCHAR2(1)
+STEB                VARCHAR2(3)
+NOPAR               NUMBER(4)
+INSTRTYP            VARCHAR2(6)
+RECORDDT            DATE
+NOTE1               VARCHAR2(80)
+NOTE2               VARCHAR2(80)
+NOTE3               VARCHAR2(80)
+NOTE4               VARCHAR2(80)
