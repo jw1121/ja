@@ -6,6 +6,7 @@ import com.data.integration.model.Owner;
 import com.data.integration.model.Parcel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.sql.*;
 import java.util.List;
@@ -16,11 +17,6 @@ public class CamaRepository {
     final static String OWNDAT = "INSERT INTO TEST.OWNDAT () values";
     final static String OWNMLT = "INSERT INTO TEST.OWNMLT () values";
     final static String SALE = "INSERT INTO TEST.SALE () values";
-
-//    static String username = "ja_api";
-//    static String password = "Propapi$6200";
-//    static String url = "jdbc:oracle:thin:@TEST";
-//    static String tns = "C:/Oracle12c/product/12.1.0/client_2/network/admin";
 
     Connection connection = null;
     Statement statement = null;
@@ -73,18 +69,26 @@ public class CamaRepository {
     }
 
 
-    public void insertOWNDAT(Cama payload) throws SQLException {
-        List<Owner> owners = payload.getOwners();
-        List<Parcel> parcels = payload.getParcels();
-        Mailing_Address address = payload.getMailing_Address();
+    public boolean doesRecordExist(String parid, int taxyr) throws SQLException {
+        preparedStatement = connection.prepareStatement("");
+        preparedStatement.setString(0, parid);
+        preparedStatement.setInt(1, taxyr);
+        ResultSet resultSet = statement.executeQuery("");
+
+        while(resultSet.next()) {
+            String tblName = resultSet.getString("tbl_name");
+            if(StringUtils.isEmpty(tblName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void insertOWNDAT(Parcel parcel, int taxyr, int book, int page, Owner owner, Mailing_Address address) throws SQLException {
 
         preparedStatement = connection.prepareStatement("");
-        parcels.get(0).getParid();
-        payload.getTaxyr();
-        payload.getBook();
-        payload.getPage();
+        parcel.getParid();
 
-        Owner owner = owners.get(0);
         owner.getOwnseq();
         owner.getOwn1();
         owner.getOwn2();
@@ -120,15 +124,9 @@ public class CamaRepository {
         preparedStatement.addBatch("");
     }
 
-    public void insertOWNMLT(Cama payload) throws SQLException {
-        List<Owner> owners = payload.getOwners();
-        List<Parcel> parcels = payload.getParcels();
-        Mailing_Address address = payload.getMailing_Address();
+    public void insertOWNMLT(Parcel parcel, int taxyr, int book, int page, List<Owner> owners) throws SQLException {
 
-        parcels.get(0).getParid();
-        payload.getTaxyr();
-        payload.getBook();
-        payload.getPage();
+        parcel.getParid();
 
         for(int i = 1; i > owners.size(); i++) {
             Owner owner = owners.get(i);

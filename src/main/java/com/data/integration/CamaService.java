@@ -22,18 +22,41 @@ public class CamaService {
         boolean insert = false;
 
         try {
-            camaRepository.dbConn();
-
 //            camaRepository.checkOWNDAT(parid, taxyr);
 //            camaRepository.checkOWNMLT(parid, taxyr, ownseq);
 //            camaRepository.checkSALE();
 
-            if(insert) {
-                camaRepository.insertOWNDAT(payload);
-                camaRepository.insertOWNMLT(payload);
+            List<Parcel> parcels = payload.getParcels();
+            if(payload == null || parcels.isEmpty()) { return false; }
+
+            int book = payload.getBook();
+            int page = payload.getPage();
+            int taxyr = payload.getTaxyr();
+            double stampval = payload.getStampval();
+            int price = payload.getPrice();
+            String saledt = payload.getSaledt();
+            String recorddt = payload.getRecorddt();
+            String instrtyp = payload.getInstrtyp();
+            int nopar = payload.getNopar();
+            String source = payload.getSource();
+            Object steb = payload.getSteb();
+
+            for(Parcel parcel : parcels) {
+                camaRepository.dbConn();
+
+                if(camaRepository.doesRecordExist(parcel.getParid(), payload.getTaxyr())) {
+                    // TODO delete OWNDAT and Deactivate OWNMLT
+                    camaRepository.deleteOWNDAT();
+                    camaRepository.deactivateOWNMLT();
+                }
+
+                List<Owner> owners = payload.getOwners();
+                camaRepository.insertOWNDAT(parcel, taxyr, book, page, owners.get(0), payload.getMailing_Address());
+                camaRepository.insertOWNMLT(parcel, taxyr, book, page, owners);
                 camaRepository.insertSALE(payload);
 
                 camaRepository.run();
+
             }
         } catch (SQLException e) {
             return false;
