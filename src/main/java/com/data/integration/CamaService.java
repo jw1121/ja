@@ -53,8 +53,11 @@ public class CamaService {
 
                 List<Owner> owners = payload.getOwners();
                 camaRepository.insertOWNDAT(parcel, taxyr, book, page, salesKey, owners.get(0), payload.getMailing_Address());
-                camaRepository.insertOWNMLT(parcel, taxyr, book, page, salesKey, owners);
                 camaRepository.insertSALE(payload, salesKey);
+
+                if(owners.size() > 1) {
+                    camaRepository.insertOWNMLT(parcel, taxyr, book, page, salesKey, owners);
+                }
 
                 camaRepository.run();
 

@@ -91,7 +91,7 @@ public class CamaRepository {
         preparedStatement.setString(1, parcel.getParid());
         preparedStatement.setInt(2, taxyr);
         preparedStatement.setInt(3, owner.getOwnseq());
-//        preparedStatement.setInt(4, "SEQ");
+//        preparedStatement.setInt(4, "SEQ"); // overwrite existing record and increase this number
         preparedStatement.setString(5, owner.getOwn1());
         preparedStatement.setString(6, owner.getOwn2());
         preparedStatement.setString(7, address.getCareof());
@@ -129,9 +129,38 @@ public class CamaRepository {
         preparedStatement.addBatch();
     }
 
+    public void insertSALE(Cama payload, int saleKey) throws SQLException {
+        List<Owner> owners = payload.getOwners();
+
+        preparedStatement = connection.prepareStatement(SQL_SALE);
+
+        for(Parcel parcel : payload.getParcels()) {
+
+            preparedStatement.setString(1, parcel.getParid());
+//            preparedStatement.setDate(2, payload.getSaledt());
+            preparedStatement.setInt(2, payload.getTaxyr());
+            preparedStatement.setDouble(3, payload.getStampval());
+            preparedStatement.setInt(4, payload.getPrice());
+            preparedStatement.setInt(5, 0);
+            preparedStatement.setInt(6, saleKey);
+            preparedStatement.setDouble(7, payload.getBook());
+            preparedStatement.setInt(8, payload.getPage());
+//            preparedStatement.setString(9, "OLDOWN");
+            preparedStatement.setString(10, payload.getOwners().get(0).getOwn1()); //not right
+            preparedStatement.setString(11, payload.getSource());
+            preparedStatement.setString(12, parcel.getSaletype());
+            preparedStatement.setString(13, payload.getSteb());
+            preparedStatement.setInt(14, payload.getNopar());
+            preparedStatement.setString(15, payload.getInstrtyp());
+//            preparedStatement.setDate(16, payload.getRecorddt());
+
+            preparedStatement.addBatch();
+        }
+    }
+
     public void insertOWNMLT(Parcel parcel, int taxyr, String book, String page, int saleskey, List<Owner> owners) throws SQLException {
 
-        preparedStatement = connection.prepareStatement(SQL_OWNDAT);
+        preparedStatement = connection.prepareStatement(SQL_OWNMLT);
 
         for(int i = 1; i > owners.size(); i++) {
             Owner owner = owners.get(i);
@@ -158,30 +187,5 @@ public class CamaRepository {
         }
     }
 
-    public void insertSALE(Cama payload, int saleKey) throws SQLException {
-        List<Owner> owners = payload.getOwners();
 
-        for(Parcel parcel : payload.getParcels()) {
-
-            preparedStatement.setString(1, parcel.getParid());
-//            preparedStatement.setDate(2, payload.getSaledt());
-            preparedStatement.setInt(2, payload.getTaxyr());
-            preparedStatement.setDouble(3, payload.getStampval());
-            preparedStatement.setInt(4, payload.getPrice());
-//            preparedStatement.setInt(5, "SEg");
-            preparedStatement.setInt(6, saleKey);
-            preparedStatement.setDouble(7, payload.getBook());
-            preparedStatement.setInt(8, payload.getPage());
-//            preparedStatement.setString(9, "OLDOWN");
-            preparedStatement.setString(10, payload.getOwners().get(0).getOwn1()); //not right
-            preparedStatement.setString(11, payload.getSource());
-            preparedStatement.setString(12, parcel.getSaletype());
-            preparedStatement.setString(13, payload.getSteb());
-            preparedStatement.setInt(14, payload.getNopar());
-            preparedStatement.setString(15, payload.getInstrtyp());
-//            preparedStatement.setDate(16, payload.getRecorddt());
-
-            preparedStatement.addBatch();
-        }
-    }
 }
