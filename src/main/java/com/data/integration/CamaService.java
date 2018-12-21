@@ -29,8 +29,8 @@ public class CamaService {
             List<Parcel> parcels = payload.getParcels();
             if(payload == null || parcels.isEmpty()) { return false; }
 
-            int book = payload.getBook();
-            int page = payload.getPage();
+            String book = String.valueOf(payload.getBook());
+            String page = String.valueOf(payload.getPage());
             int taxyr = payload.getTaxyr();
             double stampval = payload.getStampval();
             int price = payload.getPrice();
@@ -41,19 +41,20 @@ public class CamaService {
             String source = payload.getSource();
             Object steb = payload.getSteb();
 
-            for(Parcel parcel : parcels) {
-                camaRepository.dbConn();
+            camaRepository.dbConn();
+            int salesKey = camaRepository.getNextSeq();
 
+            for(Parcel parcel : parcels) {
                 if(camaRepository.doesRecordExist(parcel.getParid(), payload.getTaxyr())) {
                     // TODO delete OWNDAT and Deactivate OWNMLT
-                    camaRepository.deleteOWNDAT();
-                    camaRepository.deactivateOWNMLT();
+//                    camaRepository.deleteOWNDAT();
+//                    camaRepository.deactivateOWNMLT();
                 }
 
                 List<Owner> owners = payload.getOwners();
-                camaRepository.insertOWNDAT(parcel, taxyr, book, page, owners.get(0), payload.getMailing_Address());
-                camaRepository.insertOWNMLT(parcel, taxyr, book, page, owners);
-                camaRepository.insertSALE(payload);
+                camaRepository.insertOWNDAT(parcel, taxyr, book, page, salesKey, owners.get(0), payload.getMailing_Address());
+                camaRepository.insertOWNMLT(parcel, taxyr, book, page, salesKey, owners);
+                camaRepository.insertSALE(payload, salesKey);
 
                 camaRepository.run();
 

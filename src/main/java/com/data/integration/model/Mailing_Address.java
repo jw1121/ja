@@ -13,7 +13,7 @@ public class Mailing_Address implements Serializable {
     @Max(10)
     private int adrno;
     @Max(6)
-    private Object adradd;
+    private String adradd;
     @Max(2)
     private String adrdir;
     @Max(30)
@@ -27,19 +27,19 @@ public class Mailing_Address implements Serializable {
     @Max(2)
     private String statecode;
     @Max(30)
-    private Object country;
+    private String country;
     @Max(10)
-    private Object postalcode;
+    private String postalcode;
     @Max(10)
     private String unitdesc;
     @Max(10)
     private String unitno;
     @Max(80)
-    private Object addr1;
+    private String addr1;
     @Max(80)
-    private Object addr2;
+    private String addr2;
     @Max(80)
-    private Object addr3;
+    private String addr3;
     @Max(80)
     private String zip1;
     @Max(80)
@@ -71,11 +71,9 @@ public class Mailing_Address implements Serializable {
         this.adrno = adrno;
     }
 
-    public Object getAdradd() {
-        return adradd;
-    }
+    public String getAdradd() { return adradd; }
 
-    public void setAdradd(Object adradd) {
+    public void setAdradd(String adradd) {
         this.adradd = adradd;
     }
 
@@ -127,19 +125,15 @@ public class Mailing_Address implements Serializable {
         this.statecode = statecode;
     }
 
-    public Object getCountry() {
-        return country;
-    }
+    public String getCountry() { return country; }
 
-    public void setCountry(Object country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public Object getPostalcode() {
-        return postalcode;
-    }
+    public String getPostalcode() { return postalcode; }
 
-    public void setPostalcode(Object postalcode) {
+    public void setPostalcode(String postalcode) {
         this.postalcode = postalcode;
     }
 
@@ -159,27 +153,25 @@ public class Mailing_Address implements Serializable {
         this.unitno = unitno;
     }
 
-    public Object getAddr1() {
-        return addr1;
-    }
+    public String getAddr1() { return addr1; }
 
-    public void setAddr1(Object addr1) {
+    public void setAddr1(String addr1) {
         this.addr1 = addr1;
     }
 
-    public Object getAddr2() {
+    public String getAddr2() {
         return addr2;
     }
 
-    public void setAddr2(Object addr2) {
+    public void setAddr2(String addr2) {
         this.addr2 = addr2;
     }
 
-    public Object getAddr3() {
+    public String getAddr3() {
         return addr3;
     }
 
-    public void setAddr3(Object addr3) {
+    public void setAddr3(String addr3) {
         this.addr3 = addr3;
     }
 

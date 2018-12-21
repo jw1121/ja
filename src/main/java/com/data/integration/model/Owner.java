@@ -10,7 +10,7 @@ public class Owner implements Serializable {
     @NotNull
     private int ownseq;
     private String own1;
-    private Object own2;
+    private String own2;
     private double pctown;
     @Max(3)
     private String owntype1;
@@ -19,7 +19,7 @@ public class Owner implements Serializable {
     @Max(3)
     private String owntype3;
     @Max(3)
-    private Object owntype4;
+    private String owntype4;
     @Max(1)
     private String hidename;
     @Max(1)
@@ -41,17 +41,13 @@ public class Owner implements Serializable {
         this.own1 = own1;
     }
 
-    public Object getOwn2() {
-        return own2;
-    }
+    public String getOwn2() { return own2; }
 
-    public void setOwn2(Object own2) {
+    public void setOwn2(String own2) {
         this.own2 = own2;
     }
 
-    public double getPctown() {
-        return pctown;
-    }
+    public double getPctown() { return pctown; }
 
     public void setPctown(double pctown) {
         this.pctown = pctown;
@@ -81,29 +77,17 @@ public class Owner implements Serializable {
         this.owntype3 = owntype3;
     }
 
-    public Object getOwntype4() {
-        return owntype4;
-    }
+    public String getOwntype4() { return owntype4; }
 
-    public void setOwntype4(Object owntype4) {
-        this.owntype4 = owntype4;
-    }
+    public void setOwntype4(String owntype4) { this.owntype4 = owntype4; }
 
-    public String getHidename() {
-        return hidename;
-    }
+    public String getHidename() { return hidename; }
 
-    public void setHidename(String hidename) {
-        this.hidename = hidename;
-    }
+    public void setHidename(String hidename) { this.hidename = hidename; }
 
-    public String getMarstat() {
-        return marstat;
-    }
+    public String getMarstat() { return marstat; }
 
-    public void setMarstat(String marstat) {
-        this.marstat = marstat;
-    }
+    public void setMarstat(String marstat) { this.marstat = marstat; }
 
     @Override
     public String toString() {

@@ -23,7 +23,7 @@ public class Cama implements Serializable {
     private int nopar;
     private String source;
     @Max(3)
-    private Object steb;
+    private String steb;
     @NotNull
     private int taxyr;
     @NotNull
@@ -104,11 +104,9 @@ public class Cama implements Serializable {
         this.source = source;
     }
 
-    public Object getSteb() {
-        return steb;
-    }
+    public String getSteb() { return steb; }
 
-    public void setSteb(Object steb) {
+    public void setSteb(String steb) {
         this.steb = steb;
     }
 
