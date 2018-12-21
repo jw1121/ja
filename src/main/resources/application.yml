@@ -22,6 +22,8 @@ management:
   endpoints:
     web:
       base-path: /
+      path-mapping:
+        health: /health_check
 
 jackson:
   mapper:
