@@ -12,20 +12,21 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class CamaController {
 
-    final static String CLIENTSECRET = "1";
     @Autowired
     CamaService camaService;
 
-    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+    @RequestMapping(value = "/api", method = RequestMethod.POST, produces = "text/html")
     @ApiOperation("Record seller buyer info")
-    public @ResponseBody String createPerson(@RequestHeader(value="cama_client") String client,
-                                             @ApiParam("Came data.")
+    public @ResponseBody String createPerson(@ApiParam("Came data.")
                                @Valid @RequestBody Cama payload) {
-        if(CLIENTSECRET.equals(client)) {
             camaService.LeonProcess(payload);
             return "accepted";
-        } else {
-            return "Unknown client. Dropping message.";
-        }
+    }
+
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = "text/html")
+    @ApiOperation("test")
+    public @ResponseBody String createPerson() {
+            return "accepted";
     }
 }

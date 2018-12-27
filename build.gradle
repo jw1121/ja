@@ -28,6 +28,7 @@ targetCompatibility = 1.8
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile("org.springframework.boot:spring-boot-starter-security")
     compile "io.springfox:springfox-swagger2:2.9.2"
     compile "io.springfox:springfox-swagger-ui:2.9.2"
     //compile group: 'com.oracle', name: 'ojdbc8', version: '12.2.0.1'
