@@ -21,7 +21,7 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
     private String principalRequestHeader = "cama_client";
 
     //@Value("${ja.http.auth-token}")
-    private String principalRequestValue;
+    private String principalRequestValue = "1";
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {

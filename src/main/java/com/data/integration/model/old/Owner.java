@@ -1,4 +1,4 @@
-package com.data.integration.model;
+package com.data.integration.model.old;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;

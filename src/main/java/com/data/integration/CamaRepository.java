@@ -1,9 +1,8 @@
 package com.data.integration;
 
-import com.data.integration.model.Cama;
-import com.data.integration.model.Mailing_Address;
-import com.data.integration.model.Owner;
-import com.data.integration.model.Parcel;
+import com.data.integration.model.BuyerAddressComponent;
+import com.data.integration.model.BuyerNamesComponent;
+import com.data.integration.model.MainParcel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -55,6 +54,10 @@ public class CamaRepository {
         }
     }
 
+    public void commit() throws SQLException {
+        connection.commit();
+    }
+
     public void run() throws SQLException {
 //        Statement statement = connection.createStatement();
 
@@ -85,106 +88,102 @@ public class CamaRepository {
         return false;
     }
 
-    public void insertOWNDAT(Parcel parcel, int taxyr, String book, String page, int saleskey, Owner owner, Mailing_Address address) throws SQLException {
+    public void insertOWNDAT(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, BuyerNamesComponent buyer, BuyerAddressComponent address) throws SQLException {
 
         preparedStatement = connection.prepareStatement(SQL_OWNDAT);
-        preparedStatement.setString(1, parcel.getParid());
+        preparedStatement.setString(1, parcel.getParcelNumber());
         preparedStatement.setInt(2, taxyr);
-        preparedStatement.setInt(3, owner.getOwnseq());
+        preparedStatement.setInt(3, buyer.getIndex());
 //        preparedStatement.setInt(4, "SEQ"); // overwrite existing record and increase this number
-        preparedStatement.setString(5, owner.getOwn1());
-        preparedStatement.setString(6, owner.getOwn2());
-        preparedStatement.setString(7, address.getCareof());
-        preparedStatement.setString(8, address.getAddrtype());
-        preparedStatement.setInt(9, address.getAdrno());
-        preparedStatement.setString(10, address.getAdradd());
-        preparedStatement.setString(11, address.getAdrdir());
-        preparedStatement.setString(12, address.getAdrstr());
-        preparedStatement.setString(13, address.getAdrsuf());
-        preparedStatement.setString(14, address.getAdrsuf2());
-        preparedStatement.setString(15, address.getCityname());
-        preparedStatement.setString(16, address.getStatecode());
-        preparedStatement.setString(17, address.getCountry());
-        preparedStatement.setString(18, address.getPostalcode());
-        preparedStatement.setString(19, address.getUnitdesc());
-        preparedStatement.setString(20, address.getUnitno());
-        preparedStatement.setString(21, address.getAddr1());
-        preparedStatement.setString(22, address.getAddr2());
-        preparedStatement.setString(23, address.getAddr3());
-        preparedStatement.setString(24, address.getZip1());
-        preparedStatement.setString(25, address.getZip2());
-        preparedStatement.setDouble(26, owner.getPctown());
+        preparedStatement.setString(5, buyer.getFullName1());
+        preparedStatement.setString(6, buyer.getFullName2());
+        preparedStatement.setString(7, address.getBuyerAddressCareOf());
+        preparedStatement.setString(8, address.getAddressCategory());
+        preparedStatement.setInt(9, address.getBuyerAddressStreetNumber1());
+        preparedStatement.setString(10, address.getBuyerAddressStreetNumber2());
+        preparedStatement.setString(11, address.getBuyerAddressStreetDirectionalPrefix());
+        preparedStatement.setString(12, address.getBuyerAddressStreetName());
+        preparedStatement.setString(13, address.getBuyerAddressStreetSuffix());
+        preparedStatement.setString(14, address.getBuyerAddressStreetDirectionalSuffix());
+        preparedStatement.setString(15, address.getBuyerCity());
+        preparedStatement.setString(16, address.getBuyerState());
+        preparedStatement.setString(17, address.getBuyerCountry());
+        preparedStatement.setString(18, address.getBuyerForeignPostalCode());
+        preparedStatement.setString(19, address.getBuyerAddressSecondaryUnitDesignator());
+        preparedStatement.setString(20, address.getBuyerAddressSecondaryUnitNumber());
+        preparedStatement.setString(21, address.getBuyerAddress1());
+        preparedStatement.setString(22, address.getBuyerAddress2());
+        preparedStatement.setString(23, address.getBuyerAddress3());
+        preparedStatement.setString(24, address.getBuyerZip());
+        preparedStatement.setString(25, address.getBuyerZip4());
+        preparedStatement.setDouble(26, buyer.getBuyerPercentage());
         preparedStatement.setInt(27, saleskey);
-        preparedStatement.setString(28, owner.getOwntype1());
-        preparedStatement.setString(29, owner.getOwntype2());
-        preparedStatement.setString(30, owner.getOwntype3());
-        preparedStatement.setString(31, owner.getOwntype4());
-        preparedStatement.setString(32, owner.getHidename());
-        preparedStatement.setString(33, owner.getMarstat());
+        preparedStatement.setString(28, buyer.getBuyerType());
+        preparedStatement.setString(29, buyer.getBuyerType2());
+        preparedStatement.setString(30, buyer.getBuyerType3());
+        preparedStatement.setString(31, buyer.getBuyerType4());
+        preparedStatement.setString(32, hidename);
+        preparedStatement.setString(33, buyer.getBuyerMaritalStatus());
 //        preparedStatement.setString(34, "");
         preparedStatement.setString(34, book);
         preparedStatement.setString(35, page);
-        preparedStatement.setString(36, address.getUser4());
+        preparedStatement.setString(36, address.getBuyerMailingNotificationCode());
 
-        preparedStatement.addBatch();
+        preparedStatement.executeUpdate();
     }
 
-    public void insertSALE(Cama payload, int saleKey) throws SQLException {
-        List<Owner> owners = payload.getOwners();
-
+    public void insertSALE(MainParcel parcel, Date saleDt, int taxyr, double stampval, int price, int saleKey, String book, String page, String own, String source, String steb, int nopar, String instrtype, Date recordDt) throws SQLException {
         preparedStatement = connection.prepareStatement(SQL_SALE);
 
-        for(Parcel parcel : payload.getParcels()) {
-
-            preparedStatement.setString(1, parcel.getParid());
-//            preparedStatement.setDate(2, payload.getSaledt());
-            preparedStatement.setInt(2, payload.getTaxyr());
-            preparedStatement.setDouble(3, payload.getStampval());
-            preparedStatement.setInt(4, payload.getPrice());
-            preparedStatement.setInt(5, 0);
-            preparedStatement.setInt(6, saleKey);
-            preparedStatement.setDouble(7, payload.getBook());
-            preparedStatement.setInt(8, payload.getPage());
+        preparedStatement.setString(1, parcel.getParcelNumber());
+        preparedStatement.setDate(2, saleDt);
+        preparedStatement.setInt(2, taxyr);
+        preparedStatement.setDouble(3, stampval);
+        preparedStatement.setInt(4, price);
+        preparedStatement.setInt(5, 0);
+        preparedStatement.setInt(6, saleKey);
+        preparedStatement.setString(7, book);
+        preparedStatement.setString(8,page);
 //            preparedStatement.setString(9, "OLDOWN");
-            preparedStatement.setString(10, payload.getOwners().get(0).getOwn1()); //not right
-            preparedStatement.setString(11, payload.getSource());
-            preparedStatement.setString(12, parcel.getSaletype());
-            preparedStatement.setString(13, payload.getSteb());
-            preparedStatement.setInt(14, payload.getNopar());
-            preparedStatement.setString(15, payload.getInstrtyp());
-//            preparedStatement.setDate(16, payload.getRecorddt());
+        preparedStatement.setString(10, own); //not right
+        preparedStatement.setString(11, source);
+        //preparedStatement.setString(12, parcel.getSaletype());
+        preparedStatement.setString(13, steb);
+        preparedStatement.setInt(14, nopar);
+        preparedStatement.setString(15, instrtype);
+        preparedStatement.setDate(16, recordDt);
 
-            preparedStatement.addBatch();
-        }
+        preparedStatement.executeUpdate();
     }
 
-    public void insertOWNMLT(Parcel parcel, int taxyr, String book, String page, int saleskey, List<Owner> owners) throws SQLException {
+    public void insertOWNMLT(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, List <BuyerNamesComponent> buyers) throws SQLException {
 
         preparedStatement = connection.prepareStatement(SQL_OWNMLT);
 
-        for(int i = 1; i > owners.size(); i++) {
-            Owner owner = owners.get(i);
+        for(int i = 1; i > buyers.size(); i++) {
+            BuyerNamesComponent buyer = buyers.get(i);
 
-            preparedStatement.setString(1, parcel.getParid());
+            preparedStatement.setString(1, parcel.getParcelNumber());
             preparedStatement.setInt(2, taxyr);
-            preparedStatement.setInt(3, owner.getOwnseq());
+            preparedStatement.setInt(3, buyer.getIndex());
 //            preparedStatement.setInt(4, "SEQ");
-            preparedStatement.setString(5, owner.getOwn1());
-            preparedStatement.setString(6, owner.getOwn2());
-            preparedStatement.setDouble(7, owner.getPctown());
+            preparedStatement.setString(5, buyer.getFullName1());
+            preparedStatement.setString(6, buyer.getFullName2());
+            preparedStatement.setDouble(7, buyer.getBuyerPercentage());
             preparedStatement.setInt(8, saleskey);
-            preparedStatement.setString(9, owner.getOwntype1());
-            preparedStatement.setString(10, owner.getOwntype2());
-            preparedStatement.setString(11, owner.getOwntype3());
-            preparedStatement.setString(12, owner.getOwntype4());
-            preparedStatement.setString(13, owner.getHidename());
-            preparedStatement.setString(14, owner.getMarstat());
+            preparedStatement.setString(9, buyer.getBuyerType());
+            preparedStatement.setString(10, buyer.getBuyerType2());
+            preparedStatement.setString(11, buyer.getBuyerType3());
+            preparedStatement.setString(12, buyer.getBuyerType4());
+            preparedStatement.setString(13, hidename);
+            preparedStatement.setString(14, buyer.getBuyerMaritalStatus());
             preparedStatement.setString(15, book);
             preparedStatement.setString(16, page);
             preparedStatement.setString(17, page);
 
             preparedStatement.addBatch();
         }
+        preparedStatement.execute();
     }
 
 

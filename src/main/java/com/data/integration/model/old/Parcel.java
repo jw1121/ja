@@ -1,4 +1,4 @@
-package com.data.integration.model;
+package com.data.integration.model.old;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
