@@ -14,7 +14,7 @@ public class SaleData implements Serializable {
     @Max(8)
     private String page;
     private double docstamp_amount;
-    private int derivedSalePriceFlorida;
+    private int derived_sale_price_florida;
     @NotNull
     private String sale_date;
     private String recorded_date;
@@ -50,12 +50,12 @@ public class SaleData implements Serializable {
         this.docstamp_amount = docstamp_amount;
     }
 
-    public int getDerivedSalePriceFlorida() {
-        return derivedSalePriceFlorida;
+    public int getDerived_sale_price_florida() {
+        return derived_sale_price_florida;
     }
 
-    public void setDerivedSalePriceFlorida(int derivedSalePriceFlorida) {
-        this.derivedSalePriceFlorida = derivedSalePriceFlorida;
+    public void setDerived_sale_price_florida(int derived_sale_price_florida) {
+        this.derived_sale_price_florida = derived_sale_price_florida;
     }
 
     public String getSale_date() {

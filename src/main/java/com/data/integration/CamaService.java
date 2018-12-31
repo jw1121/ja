@@ -47,7 +47,7 @@ public class CamaService {
             int taxYear = saleData.getTax_year();
             if (taxYear < 999 || taxYear > 9999) { throw new CamaException("incorrect tax_year."); }
             double stampAmount = saleData.getDocstamp_amount();
-            int price = saleData.getDerivedSalePriceFlorida();
+            int price = saleData.getDerived_sale_price_florida();
             Date saleDate = toSQLDate(saleData.getSale_date(), dateFormat);
             Date recordDate = toSQLDate(saleData.getRecorded_date(), dateFormat);
             String instrtype = saleData.getSale_instrument();
