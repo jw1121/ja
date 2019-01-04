@@ -1,7 +1,11 @@
 package com.data.integration.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,13 +19,17 @@ public class SaleData implements Serializable {
     private String page;
     private double docstamp_amount;
     private int derived_sale_price_florida;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
     private String sale_date;
     private String recorded_date;
     private String sale_instrument;
     private int total_parcel_count;
+    @Size(min=999, max=9999)
     private int tax_year;
+    @NotEmpty
     private ParcelMatchCardsComponent parcel_match_cards_component;
+    @NotNull
     private BuyerAddressComponent buyer_address_component;
     private List<BuyerNamesComponent> buyer_names_component = null;
 

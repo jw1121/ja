@@ -1,6 +1,6 @@
 package com.data.integration;
 
-public class CamaException extends Exception {
+public class CamaException extends RuntimeException {
     CamaException(String msg) {
         super(msg);
     }
