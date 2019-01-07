@@ -1,11 +1,10 @@
 package com.data.integration.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,9 +12,9 @@ public class SaleData implements Serializable {
     private final static long serialVersionUID = 1446924413947058634L;
 
     @NotNull
-    @Max(8)
+    @Max(value = 8, message = "Invalid value length.")
     private String book;
-    @Max(8)
+    @Max(value = 8, message = "Invalid value length.")
     private String page;
     private double docstamp_amount;
     private int derived_sale_price_florida;
@@ -25,9 +24,10 @@ public class SaleData implements Serializable {
     private String recorded_date;
     private String sale_instrument;
     private int total_parcel_count;
-    @Size(min=999, max=9999)
+    @Range(min = 999, max = 9999, message = "Please select valid year")
     private int tax_year;
-    @NotEmpty
+    @NotNull
+    @Valid
     private ParcelMatchCardsComponent parcel_match_cards_component;
     @NotNull
     private BuyerAddressComponent buyer_address_component;

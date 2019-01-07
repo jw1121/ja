@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class CamaController {
     final static Logger logger = LoggerFactory.getLogger(CamaController.class);
@@ -20,7 +22,7 @@ public class CamaController {
     @RequestMapping(value = "/api", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Record seller buyer info")
     @ResponseStatus(HttpStatus.CREATED)
-    public CamaOutput createPerson(@Validated @RequestBody Leon payload) {
+    public CamaOutput createPerson(@Valid @RequestBody Leon payload) {
         boolean result = false;
         try {
             result = camaService.LeonProcess(payload);
@@ -33,7 +35,6 @@ public class CamaController {
         }
             return new CamaOutput("400", "unsuccessful");
     }
-
 
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = "text/html")
     @ApiOperation("test")

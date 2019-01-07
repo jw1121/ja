@@ -7,7 +7,6 @@ spring:
     password: Propapi$6200
     tns: C:/Oracle12c/product/12.1.0/client_2/network/admin
     object: test
-  salt:
 
 # sample -> https://github.com/indrabasak/spring-tls-example
 server:
@@ -26,9 +25,9 @@ management:
       path-mapping:
         health: /health_check
 
-jackson:
-  mapper:
-    accept_case_insensitive_properties: true
+#jackson:
+#  mapper:
+#    accept_case_insensitive_properties: true
 
 logging:
   path: ./
