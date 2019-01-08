@@ -11,29 +11,42 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@RequestMapping(value = "/ja")
 public class CamaController {
     final static Logger logger = LoggerFactory.getLogger(CamaController.class);
 
     @Autowired
     CamaService camaService;
 
-    @RequestMapping(value = "/api", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/import", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Record seller buyer info")
     @ResponseStatus(HttpStatus.CREATED)
-    public CamaOutput createPerson(@Valid @RequestBody Leon payload) {
+    public ValidationError createPerson(@Valid @RequestBody Leon payload) {
         boolean result = false;
+        ValidationError errors = new ValidationError();
+        List<Error> error = new ArrayList<>();
         try {
             result = camaService.LeonProcess(payload);
         } catch (Exception e) {
             e.printStackTrace();
-            return new CamaOutput("400", e.toString());
+            error.add( new Error("400", e.toString()));
+            errors.setFieldErrors(error);
+
+            return errors;
         }
         if(result) {
-            return new CamaOutput("201", "successful");
+            error.add(new Error("200", "successful"));
+            errors.setFieldErrors(error);
+            return errors;
+        } else{
+            error.add(new Error("400", "unsuccessful"));
+            errors.setFieldErrors(error);
+            return errors;
         }
-            return new CamaOutput("400", "unsuccessful");
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = "text/html")

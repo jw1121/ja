@@ -13,10 +13,10 @@ server:
   port: 443
   ssl:
     enabled: true
-    key-store: tmp.p12
+    key-store: leon_test.p12
     key-store-password: 123456
     keyStoreType: PKCS12
-    keyAlias: tomcat
+    keyAlias: leon
 
 management:
   endpoints:
