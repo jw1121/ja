@@ -3,8 +3,8 @@ package com.data.integration.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class MainParcel implements Serializable
-{
+public class MainParcel implements Serializable {
+    private final static long serialVersionUID = 7352920892515435802L;
 
     private int id;
     private String legalDescription;
@@ -13,7 +13,7 @@ public class MainParcel implements Serializable
     private List<String> ownerTypes = null;
     private String parcelNumber;
     private String sourceId;
-    private final static long serialVersionUID = 7352920892515435802L;
+
 
     public int getId() {
         return id;
@@ -71,4 +71,16 @@ public class MainParcel implements Serializable
         this.sourceId = sourceId;
     }
 
+    @Override
+    public String toString() {
+        return "MainParcel{" +
+                "id=" + id +
+                ", legalDescription='" + legalDescription + '\'' +
+                ", matchScore=" + matchScore +
+                ", ownerNames=" + ownerNames +
+                ", ownerTypes=" + ownerTypes +
+                ", parcelNumber='" + parcelNumber + '\'' +
+                ", sourceId='" + sourceId + '\'' +
+                '}';
+    }
 }

@@ -81,7 +81,7 @@ public class CamaService {
             BuyerNamesComponent firstBuyer = buyerNamesComponents.get(0);
             String book = saleData.getBook();
             String page = saleData.getPage();
-            int taxYear = saleData.getTax_year();
+            int taxYear = saleData.getCama_tax_year();
             double stampAmount = saleData.getDocstamp_amount();
             int price = saleData.getDerived_sale_price_florida();
             Date saleDate = toSQLDate(saleData.getSale_date(), dateFormat);
@@ -95,30 +95,29 @@ public class CamaService {
             String hideName = "N";
 
             camaRepository.dbConn();
-            int salesKey = camaRepository.getNextSeq();
-            logger.debug("SalesKey: " + salesKey);
-            if(salesKey < 1) { throw new CamaException("Something wrong with saleKey."); }
 
             for(MainParcel mainParcel : mainParcels) {
+                int salesKey = camaRepository.getNextSeq();
+                logger.debug("SalesKey: " + salesKey);
+                if(salesKey < 1) { throw new CamaException("Something wrong with saleKey."); }
                 HashMap<String, Object> oldOWNDAT = camaRepository.getOWNDAT(mainParcel.getParcelNumber(), taxYear);
                 if(oldOWNDAT.isEmpty()) { throw new CamaException("Existing OWNDAT record was not found. "+ mainParcel.getParcelNumber() + "-"  + taxYear);}
                 seq = (int) oldOWNDAT.get("seq");
-                seq++;
                 logger.debug("new seq number:" + seq);
 
                 String oldown = (String) oldOWNDAT.get("oldown");
 
-                camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, seq, firstBuyer, buyerAddressComponent);
+                camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, buyerAddressComponent);
                 camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, steb, parcelCount, instrtype, recordDate);
 
+                int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);
                 for(int i = 1; buyerNamesComponents.size() > i; i++) {
                     logger.debug("buyerNamesComponent: " + i);
                     BuyerNamesComponent buyerNamesComponent = buyerNamesComponents.get(i);
-                    camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear, buyerNamesComponent.getIndex());
-                    camaRepository.insertOWNMLT(mainParcel, taxYear, seq, book, page, salesKey, hideName, buyerNamesComponent);
+                    camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear, buyerNamesComponent.getId());
+                    camaRepository.insertOWNMLT(mainParcel, taxYear, ++ownSEQ, book, page, salesKey, hideName, buyerNamesComponent);
                 }
             }
-            // TODO Test transactional
             camaRepository.commit();
         } catch (SQLException e) {
             //TODO log to file

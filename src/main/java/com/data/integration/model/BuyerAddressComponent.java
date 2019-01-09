@@ -187,4 +187,29 @@ public class BuyerAddressComponent implements Serializable
         this.buyerMailingNotificationCode = buyerMailingNotificationCode;
     }
 
+    @Override
+    public String toString() {
+        return "BuyerAddressComponent{" +
+                "buyerAddressCareOf='" + buyerAddressCareOf + '\'' +
+                ", addressCategory='" + addressCategory + '\'' +
+                ", buyerAddressStreetNumber1=" + buyerAddressStreetNumber1 +
+                ", buyerAddressStreetNumber2='" + buyerAddressStreetNumber2 + '\'' +
+                ", buyerAddressStreetDirectionalPrefix='" + buyerAddressStreetDirectionalPrefix + '\'' +
+                ", buyerAddressStreetName='" + buyerAddressStreetName + '\'' +
+                ", buyerAddressStreetSuffix='" + buyerAddressStreetSuffix + '\'' +
+                ", buyerAddressStreetDirectionalSuffix='" + buyerAddressStreetDirectionalSuffix + '\'' +
+                ", buyerCity='" + buyerCity + '\'' +
+                ", buyerState='" + buyerState + '\'' +
+                ", buyerCountry='" + buyerCountry + '\'' +
+                ", buyerForeignPostalCode='" + buyerForeignPostalCode + '\'' +
+                ", buyerAddressSecondaryUnitDesignator='" + buyerAddressSecondaryUnitDesignator + '\'' +
+                ", buyerAddressSecondaryUnitNumber='" + buyerAddressSecondaryUnitNumber + '\'' +
+                ", buyerAddress1='" + buyerAddress1 + '\'' +
+                ", buyerAddress2='" + buyerAddress2 + '\'' +
+                ", buyerAddress3='" + buyerAddress3 + '\'' +
+                ", buyerZip='" + buyerZip + '\'' +
+                ", buyerZip4='" + buyerZip4 + '\'' +
+                ", buyerMailingNotificationCode='" + buyerMailingNotificationCode + '\'' +
+                '}';
+    }
 }

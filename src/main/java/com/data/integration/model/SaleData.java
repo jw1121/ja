@@ -12,9 +12,9 @@ public class SaleData implements Serializable {
     private final static long serialVersionUID = 1446924413947058634L;
 
     @NotNull
-    @Max(value = 8, message = "Invalid value length.")
+    @Size(max = 8, message = "Invalid value length.")
     private String book;
-    @Max(value = 8, message = "Invalid value length.")
+    @Size(max = 8, message = "Invalid value length.")
     private String page;
     private double docstamp_amount;
     private int derived_sale_price_florida;
@@ -25,7 +25,7 @@ public class SaleData implements Serializable {
     private String sale_instrument;
     private int total_parcel_count;
     @Range(min = 999, max = 9999, message = "Please select valid year")
-    private int tax_year;
+    private int cama_tax_year;
     @NotNull
     @Valid
     private ParcelMatchCardsComponent parcel_match_cards_component;
@@ -98,13 +98,9 @@ public class SaleData implements Serializable {
         this.total_parcel_count = total_parcel_count;
     }
 
-    public int getTax_year() {
-        return tax_year;
-    }
+    public int getCama_tax_year() { return cama_tax_year; }
 
-    public void setTax_year(int tax_year) {
-        this.tax_year = tax_year;
-    }
+    public void setCama_tax_year(int cama_tax_year) { this.cama_tax_year = cama_tax_year; }
 
     public ParcelMatchCardsComponent getParcel_match_cards_component() {
         return parcel_match_cards_component;

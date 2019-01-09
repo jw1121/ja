@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class BuyerNamesComponent implements Serializable
 {
 
-    private int index;
+    private int id;
     private String fullName1;
     private String fullName2;
     private double buyerPercentage;
@@ -16,12 +16,12 @@ public class BuyerNamesComponent implements Serializable
     private String buyerMaritalStatus;
     private final static long serialVersionUID = 2200930421120281414L;
 
-    public int getIndex() {
-        return index;
+    public int getId() {
+        return id;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFullName1() {
@@ -88,4 +88,18 @@ public class BuyerNamesComponent implements Serializable
         this.buyerMaritalStatus = buyerMaritalStatus;
     }
 
+    @Override
+    public String toString() {
+        return "BuyerNamesComponent{" +
+                "id=" + id +
+                ", fullName1='" + fullName1 + '\'' +
+                ", fullName2='" + fullName2 + '\'' +
+                ", buyerPercentage=" + buyerPercentage +
+                ", buyerType='" + buyerType + '\'' +
+                ", buyerType2='" + buyerType2 + '\'' +
+                ", buyerType3='" + buyerType3 + '\'' +
+                ", buyerType4='" + buyerType4 + '\'' +
+                ", buyerMaritalStatus='" + buyerMaritalStatus + '\'' +
+                '}';
+    }
 }
