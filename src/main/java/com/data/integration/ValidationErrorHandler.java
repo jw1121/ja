@@ -27,23 +27,26 @@ public class ValidationErrorHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ValidationError processValidationError(MethodArgumentNotValidException ex) {
+    public Error processValidationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
 
-        return processFieldErrors(fieldErrors);
+        FieldError fieldError = fieldErrors.get(0);
+        String localizedErrorMessage = resolveLocalizedErrorMessage(fieldError);
+
+        return new Error(fieldError.getField(), localizedErrorMessage);
     }
 
-    private ValidationError processFieldErrors(List<FieldError> fieldErrors) {
-        ValidationError error = new ValidationError();
-
-        for (FieldError fieldError: fieldErrors) {
-            String localizedErrorMessage = resolveLocalizedErrorMessage(fieldError);
-            error.addFieldError(fieldError.getField(), localizedErrorMessage);
-        }
-
-        return error;
-    }
+//    private ValidationError processFieldErrors(List<FieldError> fieldErrors) {
+//        ValidationError error = new ValidationError();
+//
+//        for (FieldError fieldError: fieldErrors) {
+//            String localizedErrorMessage = resolveLocalizedErrorMessage(fieldError);
+//            error.addFieldError(fieldError.getField(), localizedErrorMessage);
+//        }
+//
+//        return error;
+//    }
 
     private String resolveLocalizedErrorMessage(FieldError fieldError) {
         Locale currentLocale =  LocaleContextHolder.getLocale();

@@ -2,6 +2,7 @@ package com.data.integration;
 
 import com.data.integration.model.Leon;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ResponseHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class CamaController {
     @RequestMapping(value = "/import", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Record seller buyer info")
     @ResponseStatus(HttpStatus.CREATED)
-    public ValidationError createPerson(@Valid @RequestBody Leon payload) {
+    @ResponseHeader()
+    public ValidationError createPerson(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
         boolean result = false;
         ValidationError errors = new ValidationError();
         List<Error> error = new ArrayList<>();

@@ -18,11 +18,11 @@ import org.springframework.security.core.AuthenticationException;
 @Order(1)
 public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //@Value("${ja.http.auth-token-header-name}")
-    private String principalRequestHeader = "cama_client";
+    @Value("${ja.http.auth-token-header-name}")
+    private String principalRequestHeader;
 
-    //@Value("${ja.http.auth-token}")
-    private String principalRequestValue = "1";
+    @Value("${ja.http.auth-token}")
+    private String principalRequestValue;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -40,14 +40,11 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
             }
         });
         httpSecurity.
-            antMatcher("/test").
+            antMatcher("/ja/**").
             csrf().disable().
             sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
             and().addFilter(filter).authorizeRequests().anyRequest().authenticated();
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/swagger-ui.html");
-//    }
+//    `
 }

@@ -9,14 +9,14 @@ spring:
     object: test
 
 # sample -> https://github.com/indrabasak/spring-tls-example
-server:
-  port: 443
-  ssl:
-    enabled: true
-    key-store: leon_test.p12
-    key-store-password: 123456
-    keyStoreType: PKCS12
-    keyAlias: leon
+#server:
+#  port: 8443
+#  ssl:
+#    enabled: true
+#    key-store: leon_test.p12
+#    key-store-password: 123456
+#    keyStoreType: PKCS12
+#    keyAlias: leon
 
 management:
   endpoints:
@@ -24,6 +24,12 @@ management:
       base-path: /
       path-mapping:
         health: /health_check
+
+ja:
+  http:
+    auth-token-header-name: Authorization
+    auth-token: ''
+
 
 #jackson:
 #  mapper:
