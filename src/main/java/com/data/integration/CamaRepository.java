@@ -16,11 +16,11 @@ public class CamaRepository {
     final static Logger logger = LoggerFactory.getLogger(CamaRepository.class);
 
     final static String SQL_OWNDAT = "INSERT INTO TEST.OWNDAT (PARID, TAXYR, OWNSEQ, SEQ, OWN1, OWN2, CAREOF, ADDRTYPE, ADRNO, ADRADD, ADRDIR, ADRSTR, ADRSUF, ADRSUF2, CITYNAME, STATECODE, COUNTRY, POSTALCODE, UNITDESC, UNITNO, ADDR1, ADDR2, ADDR3, ZIP1, ZIP2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER4) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    final static String SQL_OWNDAT_UPDATE = "UPDATE TEST.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, BOOK = ?, PAGE = ?, USER4 = ? WHERE PARID = ? AND TAXYR = ?";
-    final static String SQL_OWNMLT = "INSERT INTO TEST.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String SQL_OWNDAT_UPDATE = "UPDATE TEST.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
+    final static String SQL_OWNMLT = "INSERT INTO TEST.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM TEST.OWNMLT WHERE PARID = ? AND TAXYR = ?";
     final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? AND OWNSEQ = ? ";
-    final static String SQL_SALES = "INSERT INTO TEST.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String SQL_SALES = "INSERT INTO TEST.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     Connection connection = null;
     //Statement statement = null;
@@ -115,7 +115,7 @@ public class CamaRepository {
         int resultSet = preparedStatement.executeUpdate();
     }
 
-    public void updateOWNDAT(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, int seq, BuyerNamesComponent buyer, BuyerAddressComponent address) throws SQLException {
+    public void updateOWNDAT(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, int seq, BuyerNamesComponent buyer, String processor, BuyerAddressComponent address) throws SQLException {
         logger.debug("updateOWNDAT method");
         logger.info("updateOWNDAT with " + parcel.getParcelNumber() + ", " + taxyr + ", " + buyer.getId() + ", " + seq);
         logger.info(buyer.toString() + address.toString());
@@ -147,7 +147,7 @@ public class CamaRepository {
         preparedStatement.setString(23, address.getBuyerAddress3());
         preparedStatement.setString(24, address.getBuyerZip());
         preparedStatement.setString(25, address.getBuyerZip4());
-        preparedStatement.setDouble(26, buyer.getBuyerPercentage());
+        preparedStatement.setDouble(26, buyer.getBuyerPercentage() * 100);
         preparedStatement.setInt(27, saleskey);
         preparedStatement.setString(28, buyer.getBuyerType());
         preparedStatement.setString(29, buyer.getBuyerType2());
@@ -158,13 +158,14 @@ public class CamaRepository {
         preparedStatement.setString(34, book);
         preparedStatement.setString(35, page);
         preparedStatement.setString(36, address.getBuyerMailingNotificationCode());
-        preparedStatement.setString(37, parcel.getParcelNumber());
-        preparedStatement.setInt(38, taxyr);
+        preparedStatement.setString(37, processor);
+        preparedStatement.setString(38, parcel.getParcelNumber());
+        preparedStatement.setInt(39, taxyr);
 
         preparedStatement.executeUpdate();
     }
 
-    public void insertSALE(MainParcel parcel, Date saleDt, double stampval, int price, int saleKey, String book, String page, String oldown, String own, String source, String steb, int nopar, String instrtype, Date recordDt) throws SQLException {
+    public void insertSALE(MainParcel parcel, Date saleDt, double stampval, int price, int saleKey, String book, String page, String oldown, String own, String source, String steb, int nopar, String instrtype, Date recordDt, String processor) throws SQLException {
         logger.debug("insertSALE method");
         logger.info("insertSALE inputs: " + saleDt + ", "+  stampval + ", "+  price + ", "+  saleKey + ", "+  book + ", "+   page + ", "+
                 oldown + ", "+  own + ", "+ source + ", "+  steb + ", "+  nopar + ", "+  instrtype + ", "+  recordDt);
@@ -186,6 +187,7 @@ public class CamaRepository {
         preparedStatement.setInt(14, nopar);
         preparedStatement.setString(15, instrtype);
         preparedStatement.setDate(16, recordDt);
+        preparedStatement.setString(17, processor);
 
         preparedStatement.execute();
     }
@@ -206,7 +208,7 @@ public class CamaRepository {
         return result;
     }
 
-    public void insertOWNMLT(MainParcel parcel, int taxyr, int ownseq, String book, String page, int saleskey, String hidename, BuyerNamesComponent buyer) throws SQLException {
+    public void insertOWNMLT(MainParcel parcel, int taxyr, int ownseq, String book, String page, int saleskey, String hidename, String processor, BuyerNamesComponent buyer) throws SQLException {
         logger.debug("insertOWNMLT method");
         logger.info("insertOWNMLT " + parcel.getParcelNumber() + ", " + taxyr + ", " + ownseq + ", " + book + ", " + page + ", " + saleskey + ", " + hidename);
         logger.info(buyer.toString());
@@ -227,6 +229,7 @@ public class CamaRepository {
         preparedStatement.setString(13, buyer.getBuyerMaritalStatus());
         preparedStatement.setString(14, book);
         preparedStatement.setString(15, page);
+        preparedStatement.setString(16, processor);
 
         preparedStatement.execute();
     }

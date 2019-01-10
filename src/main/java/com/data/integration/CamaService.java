@@ -61,6 +61,8 @@ public class CamaService {
             SaleData saleData = payload.getSaleData();
             if (saleData == null) { throw new CamaException("Empty sale date."); }
 
+            UserData userData = payload.getUserData();
+
             BuyerAddressComponent buyerAddressComponent = saleData.getBuyer_address_component();
             List<BuyerNamesComponent> buyerNamesComponents = saleData.getBuyer_names_component();
             ParcelMatchCardsComponent parcelMatchCardsComponent = saleData.getParcel_match_cards_component();
@@ -88,6 +90,10 @@ public class CamaService {
             Date recordDate = toSQLDate(saleData.getRecorded_date(), dateFormat);
             String instrtype = saleData.getSale_instrument();
             int parcelCount = saleData.getTotal_parcel_count();
+            String processor = null;
+            if( userData != null) {
+                processor = getProcessor(userData.getEmail());
+            }
 
             int seq = 0;
             String source = "D";
@@ -107,15 +113,15 @@ public class CamaService {
 
                 String oldown = (String) oldOWNDAT.get("oldown");
 
-                camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, buyerAddressComponent);
-                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, steb, parcelCount, instrtype, recordDate);
+                camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
+                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, steb, parcelCount, instrtype, recordDate, processor);
 
                 int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);
                 for(int i = 1; buyerNamesComponents.size() > i; i++) {
                     logger.debug("buyerNamesComponent: " + i);
                     BuyerNamesComponent buyerNamesComponent = buyerNamesComponents.get(i);
                     camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear, buyerNamesComponent.getId());
-                    camaRepository.insertOWNMLT(mainParcel, taxYear, ++ownSEQ, book, page, salesKey, hideName, buyerNamesComponent);
+                    camaRepository.insertOWNMLT(mainParcel, taxYear, ++ownSEQ, book, page, salesKey, hideName, processor, buyerNamesComponent);
                 }
             }
             camaRepository.commit();
@@ -144,5 +150,16 @@ public class CamaService {
     private Date getcurrentDate(String format) {
         java.util.Date date = new java.util.Date();
         return new java.sql.Date(date.getTime());
+    }
+
+    private String getProcessor(String email) {
+        String[] token = null;
+        if(email.indexOf("@") > 0) {
+            token = email.split("@");
+            if (!StringUtils.isEmpty(token[0])) {
+                return token[0];
+            }
+        }
+        return null;
     }
 }
