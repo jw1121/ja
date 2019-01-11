@@ -16,11 +16,11 @@ public class CamaRepository {
     final static Logger logger = LoggerFactory.getLogger(CamaRepository.class);
 
     final static String SQL_OWNDAT = "INSERT INTO TEST.OWNDAT (PARID, TAXYR, OWNSEQ, SEQ, OWN1, OWN2, CAREOF, ADDRTYPE, ADRNO, ADRADD, ADRDIR, ADRSTR, ADRSUF, ADRSUF2, CITYNAME, STATECODE, COUNTRY, POSTALCODE, UNITDESC, UNITNO, ADDR1, ADDR2, ADDR3, ZIP1, ZIP2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER4) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    final static String SQL_OWNDAT_UPDATE = "UPDATE TEST.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
+    final static String SQL_OWNDAT_UPDATE = "UPDATE TEST.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, OWNNUM = ?,BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
     final static String SQL_OWNMLT = "INSERT INTO TEST.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM TEST.OWNMLT WHERE PARID = ? AND TAXYR = ?";
     final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? AND OWNSEQ = ? ";
-    final static String SQL_SALES = "INSERT INTO TEST.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String SQL_SALES = "INSERT INTO TEST.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     Connection connection = null;
     //Statement statement = null;
@@ -93,7 +93,8 @@ public class CamaRepository {
         while(resultSet.next()) {
             logger.debug("found existing owndat. " + resultSet.getInt("SEQ") + ", " + resultSet.getString("OWN1"));
             result.put("seq", resultSet.getInt("SEQ"));
-            result.put("oldown", resultSet.getString("OWN1"));
+            result.put("own1", resultSet.getString("OWN1"));
+            result.put("own2", resultSet.getString("OWN2"));
             rowCount++;
         }
         if(rowCount > 1) {
@@ -155,17 +156,18 @@ public class CamaRepository {
         preparedStatement.setString(31, buyer.getBuyerType4());
         preparedStatement.setString(32, hidename);
         preparedStatement.setString(33, buyer.getBuyerMaritalStatus());
-        preparedStatement.setString(34, book);
-        preparedStatement.setString(35, page);
-        preparedStatement.setString(36, address.getBuyerMailingNotificationCode());
-        preparedStatement.setString(37, processor);
-        preparedStatement.setString(38, parcel.getParcelNumber());
-        preparedStatement.setInt(39, taxyr);
+        preparedStatement.setString(34, null);
+        preparedStatement.setString(35, book);
+        preparedStatement.setString(36, page);
+        preparedStatement.setString(37, address.getBuyerMailingNotificationCode());
+        preparedStatement.setString(38, processor);
+        preparedStatement.setString(39, parcel.getParcelNumber());
+        preparedStatement.setInt(40, taxyr);
 
         preparedStatement.executeUpdate();
     }
 
-    public void insertSALE(MainParcel parcel, Date saleDt, double stampval, int price, int saleKey, String book, String page, String oldown, String own, String source, String steb, int nopar, String instrtype, Date recordDt, String processor) throws SQLException {
+    public void insertSALE(MainParcel parcel, Date saleDt, double stampval, int price, int saleKey, String book, String page, String oldown, String own, String saletype, String source, String steb, int nopar, String instrtype, Date recordDt, String processor, String oldown2, String own2) throws SQLException {
         logger.debug("insertSALE method");
         logger.info("insertSALE inputs: " + saleDt + ", "+  stampval + ", "+  price + ", "+  saleKey + ", "+  book + ", "+   page + ", "+
                 oldown + ", "+  own + ", "+ source + ", "+  steb + ", "+  nopar + ", "+  instrtype + ", "+  recordDt);
@@ -182,12 +184,14 @@ public class CamaRepository {
         preparedStatement.setString(9, oldown);
         preparedStatement.setString(10, own); //not right
         preparedStatement.setString(11, source);
-        preparedStatement.setString(12, "t"); //parcel.getSaletype());
+        preparedStatement.setString(12, saletype); //parcel.getSaletype());
         preparedStatement.setString(13, steb);
         preparedStatement.setInt(14, nopar);
         preparedStatement.setString(15, instrtype);
         preparedStatement.setDate(16, recordDt);
         preparedStatement.setString(17, processor);
+        preparedStatement.setString(18, oldown2);
+        preparedStatement.setString(19, own2);
 
         preparedStatement.execute();
     }

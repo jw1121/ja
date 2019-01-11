@@ -10,7 +10,7 @@ spring:
 
 # sample -> https://github.com/indrabasak/spring-tls-example
 server:
-  port: 8443
+  port: 443
   ssl:
     enabled: true
     key-store: leon_test.p12
@@ -28,7 +28,7 @@ management:
 ja:
   http:
     auth-token-header-name: Authorization
-    auth-token: ''
+    auth-token: 'YNN8TPLUFQ7lRGlMNxt8M21GhpCGVh7wHkPChG19m8Ai9voTzRpoYDr2KMfCOdjb'
 
 
 #jackson:

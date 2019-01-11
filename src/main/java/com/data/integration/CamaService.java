@@ -37,7 +37,7 @@ public class CamaService {
      * - The ParId-TaxYr is unique (foreing key) for OWNDAT table
      * - overwrite existing record in OWNDAT and increment SEQ value.
      * - There will be existing OWNDAT data that will need to be overwritten.
-     * - OWNDAT.OWNNUM is always null
+     * - explictly set OWNDAT.OWNNUM is always null
      *
      * OWNMLT :
      * - Owner 2+ will go to Ownmlt table
@@ -51,12 +51,11 @@ public class CamaService {
      * - SALETYPE in SALES are different for each parcel but unknown at this time
      * - OLDDOWN is own1 from OWNDAT before overwriting
      * - always new record to SALES table and set SALES.SEQ to 0
-     *
-     *
+     * - set SALES.OLDOWN2 with the prior owners OWNDAT.OWN2 data (do this any time OWNDAT.OWN2 has an entry) (new logic)
+     * - set SALES.OWN2 with the new owners OWNDAT.OWN2 data (do this any time there is any new data going into OWNDAT.OWN2) (new logic)
      */
     public boolean LeonProcess(Leon payload) throws Exception {
         try {
-            logger.debug("sfdsfsd");
             if (payload == null) { throw new CamaException("Empty payload."); }
             SaleData saleData = payload.getSaleData();
             if (saleData == null) { throw new CamaException("Empty sale date."); }
@@ -66,6 +65,7 @@ public class CamaService {
             BuyerAddressComponent buyerAddressComponent = saleData.getBuyer_address_component();
             List<BuyerNamesComponent> buyerNamesComponents = saleData.getBuyer_names_component();
             ParcelMatchCardsComponent parcelMatchCardsComponent = saleData.getParcel_match_cards_component();
+            VacantOrImprovedLandTable landTable = saleData.getVacant_or_improved_land_table();
 
             if( buyerAddressComponent == null || buyerNamesComponents == null || parcelMatchCardsComponent == null) { return false; }
 
@@ -106,20 +106,25 @@ public class CamaService {
                 int salesKey = camaRepository.getNextSeq();
                 logger.debug("SalesKey: " + salesKey);
                 if(salesKey < 1) { throw new CamaException("Something wrong with saleKey."); }
+
                 HashMap<String, Object> oldOWNDAT = camaRepository.getOWNDAT(mainParcel.getParcelNumber(), taxYear);
                 if(oldOWNDAT.isEmpty()) { throw new CamaException("Existing OWNDAT record was not found. "+ mainParcel.getParcelNumber() + "-"  + taxYear);}
-                seq = (int) oldOWNDAT.get("seq");
-                logger.debug("new seq number:" + seq);
 
-                String oldown = (String) oldOWNDAT.get("oldown");
+                seq = (int) oldOWNDAT.get("seq");
+                String oldown = (String) oldOWNDAT.get("own1");
+                String oldown2 = (String) oldOWNDAT.get("own2");
+                String saletype = getSaleType(landTable, mainParcel.getParcelNumber());
+                logger.debug("new seq number: {} own1: {} own2 {}", seq, oldown, oldown2);
 
                 camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
-                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, steb, parcelCount, instrtype, recordDate, processor);
+                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, saletype, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
 
                 int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);
                 for(int i = 1; buyerNamesComponents.size() > i; i++) {
                     logger.debug("buyerNamesComponent: " + i);
                     BuyerNamesComponent buyerNamesComponent = buyerNamesComponents.get(i);
+                    String newown2 = buyerNamesComponent.getFullName2();
+
                     camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear, buyerNamesComponent.getId());
                     camaRepository.insertOWNMLT(mainParcel, taxYear, ++ownSEQ, book, page, salesKey, hideName, processor, buyerNamesComponent);
                 }
@@ -158,6 +163,18 @@ public class CamaService {
             token = email.split("@");
             if (!StringUtils.isEmpty(token[0])) {
                 return token[0];
+            }
+        }
+        return null;
+    }
+
+    // TODO need to optimize this logic
+    private String getSaleType(VacantOrImprovedLandTable landTable, String parcelNumber) {
+        if(landTable == null) { return null; }
+
+        for(List<String> value : landTable.getValues()) {
+            if(parcelNumber == value.get(0)) {
+                return value.get(1);
             }
         }
         return null;

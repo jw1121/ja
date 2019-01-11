@@ -32,7 +32,7 @@ public class SaleData implements Serializable {
     @NotNull
     private BuyerAddressComponent buyer_address_component;
     private List<BuyerNamesComponent> buyer_names_component = null;
-
+    private VacantOrImprovedLandTable vacant_or_improved_land_table;
 
     public String getBook() {
         return book;
@@ -126,4 +126,11 @@ public class SaleData implements Serializable {
         this.buyer_names_component = buyer_names_component;
     }
 
+    public VacantOrImprovedLandTable getVacant_or_improved_land_table() {
+        return vacant_or_improved_land_table;
+    }
+
+    public void setVacant_or_improved_land_table(VacantOrImprovedLandTable vacant_or_improved_land_table) {
+        this.vacant_or_improved_land_table = vacant_or_improved_land_table;
+    }
 }
