@@ -19,7 +19,7 @@ public class CamaRepository {
     final static String SQL_OWNDAT_UPDATE = "UPDATE TEST.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, OWNNUM = ?,BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
     final static String SQL_OWNMLT = "INSERT INTO TEST.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM TEST.OWNMLT WHERE PARID = ? AND TAXYR = ?";
-    final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? AND OWNSEQ = ? ";
+    final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? ";
     final static String SQL_SALES = "INSERT INTO TEST.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     Connection connection = null;
@@ -104,15 +104,14 @@ public class CamaRepository {
         return result;
     }
 
-    public void deactivatOWNMLT(Date date, String parid, int taxyr, int ownseq) throws SQLException {
+    public void deactivatOWNMLT(Date date, String parid, int taxyr) throws SQLException {
         logger.debug("deactivatOWNMLT method");
-        logger.info("inputs: " + parid + ", " + taxyr + ", " + ownseq);
+        logger.info("inputs: " + parid + ", " + taxyr);
 
         preparedStatement = connection.prepareStatement(SQL_OWNMLT_UPDATE);
         preparedStatement.setDate(1, date);
         preparedStatement.setString(2, parid);
         preparedStatement.setInt(3, taxyr);
-        preparedStatement.setInt(4, ownseq);
         int resultSet = preparedStatement.executeUpdate();
     }
 

@@ -41,8 +41,8 @@ public class CamaService {
      *
      * OWNMLT :
      * - Owner 2+ will go to Ownmlt table
-     * - if there OWNMLT record exist then deactivate before insert on field "deactivat" with value "e" and sysdate to current.
-     * - deactivate all (if multiple) records found
+     * - always deactivate all (if multiple) records found based on ParId and TaxYr
+     * - if there OWNMLT record exist then always deactivate before insert on field "deactivat" with value "e" and sysdate to current.
      * - The ParId-TaxYr-OwnSeq is unique (foreing key) for OWNMLT table
      * -
      *
@@ -118,14 +118,14 @@ public class CamaService {
 
                 camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
                 camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, saletype, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
+                camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear);
 
                 int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);
                 for(int i = 1; buyerNamesComponents.size() > i; i++) {
                     logger.debug("buyerNamesComponent: " + i);
                     BuyerNamesComponent buyerNamesComponent = buyerNamesComponents.get(i);
                     String newown2 = buyerNamesComponent.getFullName2();
-
-                    camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear, buyerNamesComponent.getId());
+                    
                     camaRepository.insertOWNMLT(mainParcel, taxYear, ++ownSEQ, book, page, salesKey, hideName, processor, buyerNamesComponent);
                 }
             }
