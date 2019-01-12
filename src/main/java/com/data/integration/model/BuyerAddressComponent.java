@@ -1,5 +1,7 @@
 package com.data.integration.model;
 
+import com.data.integration.utility.StringConvert;
+
 import java.io.Serializable;
 
 public class BuyerAddressComponent implements Serializable
@@ -32,7 +34,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressCareOf(String buyerAddressCareOf) {
-        this.buyerAddressCareOf = buyerAddressCareOf;
+        this.buyerAddressCareOf = StringConvert.toUpper(buyerAddressCareOf);
     }
 
     public String getAddressCategory() {
@@ -40,7 +42,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setAddressCategory(String addressCategory) {
-        this.addressCategory = addressCategory;
+        this.addressCategory = StringConvert.toUpper(addressCategory);
     }
 
     public int getBuyerAddressStreetNumber1() {
@@ -56,7 +58,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressStreetNumber2(String buyerAddressStreetNumber2) {
-        this.buyerAddressStreetNumber2 = buyerAddressStreetNumber2;
+        this.buyerAddressStreetNumber2 = StringConvert.toUpper(buyerAddressStreetNumber2);
     }
 
     public String getBuyerAddressStreetDirectionalPrefix() {
@@ -64,7 +66,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressStreetDirectionalPrefix(String buyerAddressStreetDirectionalPrefix) {
-        this.buyerAddressStreetDirectionalPrefix = buyerAddressStreetDirectionalPrefix;
+        this.buyerAddressStreetDirectionalPrefix = StringConvert.toUpper(buyerAddressStreetDirectionalPrefix);
     }
 
     public String getBuyerAddressStreetName() {
@@ -72,7 +74,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressStreetName(String buyerAddressStreetName) {
-        this.buyerAddressStreetName = buyerAddressStreetName;
+        this.buyerAddressStreetName = StringConvert.toUpper(buyerAddressStreetName);
     }
 
     public String getBuyerAddressStreetSuffix() {
@@ -80,7 +82,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressStreetSuffix(String buyerAddressStreetSuffix) {
-        this.buyerAddressStreetSuffix = buyerAddressStreetSuffix;
+        this.buyerAddressStreetSuffix = StringConvert.toUpper(buyerAddressStreetSuffix);
     }
 
     public String getBuyerAddressStreetDirectionalSuffix() {
@@ -88,7 +90,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressStreetDirectionalSuffix(String buyerAddressStreetDirectionalSuffix) {
-        this.buyerAddressStreetDirectionalSuffix = buyerAddressStreetDirectionalSuffix;
+        this.buyerAddressStreetDirectionalSuffix = StringConvert.toUpper(buyerAddressStreetDirectionalSuffix);
     }
 
     public String getBuyerCity() {
@@ -96,7 +98,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerCity(String buyerCity) {
-        this.buyerCity = buyerCity;
+        this.buyerCity = StringConvert.toUpper(buyerCity);
     }
 
     public String getBuyerState() {
@@ -104,7 +106,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerState(String buyerState) {
-        this.buyerState = buyerState;
+        this.buyerState = StringConvert.toUpper(buyerState);
     }
 
     public String getBuyerCountry() {
@@ -112,7 +114,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerCountry(String buyerCountry) {
-        this.buyerCountry = buyerCountry;
+        this.buyerCountry = StringConvert.toUpper(buyerCountry);
     }
 
     public String getBuyerForeignPostalCode() {
@@ -120,7 +122,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerForeignPostalCode(String buyerForeignPostalCode) {
-        this.buyerForeignPostalCode = buyerForeignPostalCode;
+        this.buyerForeignPostalCode = StringConvert.toUpper(buyerForeignPostalCode);
     }
 
     public String getBuyerAddressSecondaryUnitDesignator() {
@@ -128,7 +130,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressSecondaryUnitDesignator(String buyerAddressSecondaryUnitDesignator) {
-        this.buyerAddressSecondaryUnitDesignator = buyerAddressSecondaryUnitDesignator;
+        this.buyerAddressSecondaryUnitDesignator = StringConvert.toUpper(buyerAddressSecondaryUnitDesignator);
     }
 
     public String getBuyerAddressSecondaryUnitNumber() {
@@ -136,7 +138,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddressSecondaryUnitNumber(String buyerAddressSecondaryUnitNumber) {
-        this.buyerAddressSecondaryUnitNumber = buyerAddressSecondaryUnitNumber;
+        this.buyerAddressSecondaryUnitNumber = StringConvert.toUpper(buyerAddressSecondaryUnitNumber);
     }
 
     public String getBuyerAddress1() {
@@ -144,7 +146,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddress1(String buyerAddress1) {
-        this.buyerAddress1 = buyerAddress1;
+        this.buyerAddress1 = StringConvert.toUpper(buyerAddress1);
     }
 
     public String getBuyerAddress2() {
@@ -152,7 +154,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddress2(String buyerAddress2) {
-        this.buyerAddress2 = buyerAddress2;
+        this.buyerAddress2 = StringConvert.toUpper(buyerAddress2);
     }
 
     public String getBuyerAddress3() {
@@ -160,7 +162,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerAddress3(String buyerAddress3) {
-        this.buyerAddress3 = buyerAddress3;
+        this.buyerAddress3 = StringConvert.toUpper(buyerAddress3);
     }
 
     public String getBuyerZip() {
@@ -168,7 +170,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerZip(String buyerZip) {
-        this.buyerZip = buyerZip;
+        this.buyerZip = StringConvert.toUpper(buyerZip);
     }
 
     public String getBuyerZip4() {
@@ -176,7 +178,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerZip4(String buyerZip4) {
-        this.buyerZip4 = buyerZip4;
+        this.buyerZip4 = StringConvert.toUpper(buyerZip4);
     }
 
     public String getBuyerMailingNotificationCode() {
@@ -184,7 +186,7 @@ public class BuyerAddressComponent implements Serializable
     }
 
     public void setBuyerMailingNotificationCode(String buyerMailingNotificationCode) {
-        this.buyerMailingNotificationCode = buyerMailingNotificationCode;
+        this.buyerMailingNotificationCode = StringConvert.toUpper(buyerMailingNotificationCode);
     }
 
     @Override

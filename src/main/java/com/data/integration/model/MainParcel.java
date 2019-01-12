@@ -1,5 +1,7 @@
 package com.data.integration.model;
 
+import com.data.integration.utility.StringConvert;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class MainParcel implements Serializable {
     }
 
     public void setLegalDescription(String legalDescription) {
-        this.legalDescription = legalDescription;
+        this.legalDescription = StringConvert.toUpper(legalDescription);
     }
 
     public int getMatchScore() {
@@ -44,7 +46,7 @@ public class MainParcel implements Serializable {
     }
 
     public void setOwnerNames(List<String> ownerNames) {
-        this.ownerNames = ownerNames;
+        this.ownerNames = StringConvert.toUpper(ownerNames);
     }
 
     public List<String> getOwnerTypes() {
@@ -52,7 +54,7 @@ public class MainParcel implements Serializable {
     }
 
     public void setOwnerTypes(List<String> ownerTypes) {
-        this.ownerTypes = ownerTypes;
+        this.ownerTypes = StringConvert.toUpper(ownerTypes);
     }
 
     public String getParcelNumber() {
@@ -60,7 +62,7 @@ public class MainParcel implements Serializable {
     }
 
     public void setParcelNumber(String parcelNumber) {
-        this.parcelNumber = parcelNumber;
+        this.parcelNumber = StringConvert.toUpper(parcelNumber);
     }
 
     public String getSourceId() {
@@ -68,7 +70,7 @@ public class MainParcel implements Serializable {
     }
 
     public void setSourceId(String sourceId) {
-        this.sourceId = sourceId;
+        this.sourceId = StringConvert.toUpper(sourceId);
     }
 
     @Override

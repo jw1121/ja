@@ -1,5 +1,6 @@
 package com.data.integration.model;
 
+import com.data.integration.utility.StringConvert;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Range;
 
@@ -39,7 +40,7 @@ public class SaleData implements Serializable {
     }
 
     public void setBook(String book) {
-        this.book = book;
+        this.book = StringConvert.toUpper(book);
     }
 
     public String getPage() {
@@ -47,7 +48,7 @@ public class SaleData implements Serializable {
     }
 
     public void setPage(String page) {
-        this.page = page;
+        this.page = StringConvert.toUpper(page);
     }
 
     public double getDocstamp_amount() {
@@ -71,7 +72,7 @@ public class SaleData implements Serializable {
     }
 
     public void setSale_date(String sale_date) {
-        this.sale_date = sale_date;
+        this.sale_date = StringConvert.toUpper(sale_date);
     }
 
     public String getRecorded_date() {
@@ -79,7 +80,7 @@ public class SaleData implements Serializable {
     }
 
     public void setRecorded_date(String recorded_date) {
-        this.recorded_date = recorded_date;
+        this.recorded_date = StringConvert.toUpper(recorded_date);
     }
 
     public String getSale_instrument() {
@@ -87,7 +88,7 @@ public class SaleData implements Serializable {
     }
 
     public void setSale_instrument(String sale_instrument) {
-        this.sale_instrument = sale_instrument;
+        this.sale_instrument = StringConvert.toUpper(sale_instrument);
     }
 
     public int getTotal_parcel_count() {

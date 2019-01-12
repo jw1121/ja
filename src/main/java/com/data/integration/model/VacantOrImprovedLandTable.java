@@ -1,5 +1,7 @@
 package com.data.integration.model;
 
+import com.data.integration.utility.StringConvert;
+
 import java.util.List;
 
 public class VacantOrImprovedLandTable {
@@ -21,7 +23,7 @@ public class VacantOrImprovedLandTable {
     }
 
     public void setHeaders(List<String> headers) {
-        this.headers = headers;
+        this.headers = StringConvert.toUpper(headers);
     }
 
     public List<List<String>> getValues() {
@@ -29,7 +31,7 @@ public class VacantOrImprovedLandTable {
     }
 
     public void setValues(List<List<String>> values) {
-        this.values = values;
+        this.values = StringConvert.listToUpper(values);
     }
 
 }

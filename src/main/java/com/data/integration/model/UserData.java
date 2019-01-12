@@ -1,5 +1,7 @@
 package com.data.integration.model;
 
+import com.data.integration.utility.StringConvert;
+
 import java.io.Serializable;
 
 public class UserData implements Serializable
@@ -16,7 +18,7 @@ public class UserData implements Serializable
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = StringConvert.toUpper(email);
     }
 
     public String getFirstName() {
@@ -24,7 +26,7 @@ public class UserData implements Serializable
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = StringConvert.toUpper(firstName);
     }
 
     public String getLastName() {
@@ -32,7 +34,7 @@ public class UserData implements Serializable
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = StringConvert.toUpper(lastName);
     }
 
 }

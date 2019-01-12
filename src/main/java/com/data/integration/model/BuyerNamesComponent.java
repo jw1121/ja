@@ -1,5 +1,7 @@
 package com.data.integration.model;
 
+import com.data.integration.utility.StringConvert;
+
 import java.io.Serializable;
 
 public class BuyerNamesComponent implements Serializable
@@ -29,7 +31,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setFullName1(String fullName1) {
-        this.fullName1 = fullName1;
+        this.fullName1 = StringConvert.toUpper(fullName1);
     }
 
     public String getFullName2() {
@@ -37,7 +39,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setFullName2(String fullName2) {
-        this.fullName2 = fullName2;
+        this.fullName2 = StringConvert.toUpper(fullName2);
     }
 
     public double getBuyerPercentage() {
@@ -53,7 +55,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setBuyerType(String buyerType) {
-        this.buyerType = buyerType;
+        this.buyerType = StringConvert.toUpper(buyerType);
     }
 
     public String getBuyerType2() {
@@ -61,7 +63,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setBuyerType2(String buyerType2) {
-        this.buyerType2 = buyerType2;
+        this.buyerType2 = StringConvert.toUpper(buyerType2);
     }
 
     public String getBuyerType3() {
@@ -69,7 +71,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setBuyerType3(String buyerType3) {
-        this.buyerType3 = buyerType3;
+        this.buyerType3 = StringConvert.toUpper(buyerType3);
     }
 
     public String getBuyerType4() {
@@ -77,7 +79,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setBuyerType4(String buyerType4) {
-        this.buyerType4 = buyerType4;
+        this.buyerType4 = StringConvert.toUpper(buyerType4);
     }
 
     public String getBuyerMaritalStatus() {
@@ -85,7 +87,7 @@ public class BuyerNamesComponent implements Serializable
     }
 
     public void setBuyerMaritalStatus(String buyerMaritalStatus) {
-        this.buyerMaritalStatus = buyerMaritalStatus;
+        this.buyerMaritalStatus = StringConvert.toUpper(buyerMaritalStatus);
     }
 
     @Override

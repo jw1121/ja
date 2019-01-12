@@ -117,7 +117,7 @@ public class CamaService {
                 logger.debug("new seq number: {} own1: {} own2 {}", seq, oldown, oldown2);
 
                 camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
-                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), source, saletype, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
+                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), saletype, source, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
                 camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear);
 
                 int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);
@@ -125,7 +125,7 @@ public class CamaService {
                     logger.debug("buyerNamesComponent: " + i);
                     BuyerNamesComponent buyerNamesComponent = buyerNamesComponents.get(i);
                     String newown2 = buyerNamesComponent.getFullName2();
-                    
+
                     camaRepository.insertOWNMLT(mainParcel, taxYear, ++ownSEQ, book, page, salesKey, hideName, processor, buyerNamesComponent);
                 }
             }

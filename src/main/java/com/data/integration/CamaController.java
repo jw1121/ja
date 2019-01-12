@@ -27,7 +27,7 @@ public class CamaController {
     @ApiOperation("Record seller buyer info")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseHeader()
-    public ValidationError createPerson(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
+    public ValidationError createLeon(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
         boolean result = false;
         ValidationError errors = new ValidationError();
         List<Error> error = new ArrayList<>();
