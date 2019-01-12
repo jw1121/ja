@@ -15,17 +15,6 @@ import java.util.HashMap;
 public class CamaRepository {
     final static Logger logger = LoggerFactory.getLogger(CamaRepository.class);
 
-    final static String SQL_OWNDAT = "INSERT INTO TEST.OWNDAT (PARID, TAXYR, OWNSEQ, SEQ, OWN1, OWN2, CAREOF, ADDRTYPE, ADRNO, ADRADD, ADRDIR, ADRSTR, ADRSUF, ADRSUF2, CITYNAME, STATECODE, COUNTRY, POSTALCODE, UNITDESC, UNITNO, ADDR1, ADDR2, ADDR3, ZIP1, ZIP2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER4) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    final static String SQL_OWNDAT_UPDATE = "UPDATE TEST.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, OWNNUM = ?,BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
-    final static String SQL_OWNMLT = "INSERT INTO TEST.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM TEST.OWNMLT WHERE PARID = ? AND TAXYR = ?";
-    final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? ";
-    final static String SQL_SALES = "INSERT INTO TEST.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    Connection connection = null;
-    //Statement statement = null;
-    PreparedStatement preparedStatement = null;
-
     @Value("${spring.datasource.url}")
     private String url;
     @Value("${spring.datasource.username}")
@@ -36,6 +25,19 @@ public class CamaRepository {
     private String tns;
     @Value("${spring.datasource.object}")
     private String object;
+
+    final static String SQL_OWNDAT = "INSERT INTO {}.OWNDAT (PARID, TAXYR, OWNSEQ, SEQ, OWN1, OWN2, CAREOF, ADDRTYPE, ADRNO, ADRADD, ADRDIR, ADRSTR, ADRSUF, ADRSUF2, CITYNAME, STATECODE, COUNTRY, POSTALCODE, UNITDESC, UNITNO, ADDR1, ADDR2, ADDR3, ZIP1, ZIP2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER4) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String SQL_OWNDAT_UPDATE = "UPDATE {}.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, OWNNUM = ?,BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
+    final static String SQL_OWNMLT = "INSERT INTO {}.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM {}.OWNMLT WHERE PARID = ? AND TAXYR = ?";
+    final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? ";
+    final static String SQL_SALES = "INSERT INTO {}.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    Connection connection = null;
+    //Statement statement = null;
+    PreparedStatement preparedStatement = null;
+
+
 
     public void dbConn() {
         //TODO manager
@@ -73,7 +75,7 @@ public class CamaRepository {
     public int getNextSeq() throws SQLException {
         logger.debug("getNextSeq method");
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select TEST.saleseq.nextval as val from dual");
+        ResultSet resultSet = statement.executeQuery("select {}.saleseq.nextval as val from dual".replace("{}", object));
         resultSet.next();
         int next = resultSet.getInt("val");
         return next;
@@ -82,7 +84,7 @@ public class CamaRepository {
     public HashMap<String, Object> getOWNDAT(String parid, int taxyr) throws SQLException {
         logger.debug("getOWNDAT method");
         logger.info("getOWNDAT with " + parid + ",  " + taxyr);
-        preparedStatement = connection.prepareStatement("SELECT * FROM TEST.OWNDAT WHERE PARID = ? AND TAXYR = ? ");
+        preparedStatement = connection.prepareStatement("SELECT * FROM {}.OWNDAT WHERE PARID = ? AND TAXYR = ? ".replace("{}", object));
         preparedStatement.setString(1, parid);
         preparedStatement.setInt(2, taxyr);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -108,7 +110,7 @@ public class CamaRepository {
         logger.debug("deactivatOWNMLT method");
         logger.info("inputs: " + parid + ", " + taxyr);
 
-        preparedStatement = connection.prepareStatement(SQL_OWNMLT_UPDATE);
+        preparedStatement = connection.prepareStatement(SQL_OWNMLT_UPDATE.replace("{}", object));
         preparedStatement.setDate(1, date);
         preparedStatement.setString(2, parid);
         preparedStatement.setInt(3, taxyr);
@@ -121,7 +123,7 @@ public class CamaRepository {
         logger.info(buyer.toString() + address.toString());
         logger.info(saleskey + ", " + hidename + ", " + book + ", " + page);
 
-        preparedStatement = connection.prepareStatement(SQL_OWNDAT_UPDATE);
+        preparedStatement = connection.prepareStatement(SQL_OWNDAT_UPDATE.replace("{}", object));
         preparedStatement.setString(1, parcel.getParcelNumber());
         preparedStatement.setInt(2, taxyr);
         preparedStatement.setInt(3, buyer.getId());
@@ -171,7 +173,7 @@ public class CamaRepository {
         logger.info("insertSALE inputs: " + saleDt + ", "+  stampval + ", "+  price + ", "+  saleKey + ", "+  book + ", "+   page + ", "+
                 oldown + ", "+  own + ", "+ source + ", "+  steb + ", "+  nopar + ", "+  instrtype + ", "+  recordDt);
 
-        preparedStatement = connection.prepareStatement(SQL_SALES);
+        preparedStatement = connection.prepareStatement(SQL_SALES.replace("{}", object));
         preparedStatement.setString(1, parcel.getParcelNumber());
         preparedStatement.setDate(2, saleDt);
         preparedStatement.setDouble(3, stampval);
@@ -199,7 +201,7 @@ public class CamaRepository {
         logger.debug("getOWNMLT method");
         logger.info("getOWNMLT using. " + parid + ",  " + taxyr);
 
-        preparedStatement = connection.prepareStatement(SQL_OWNMLT_SELECT);
+        preparedStatement = connection.prepareStatement(SQL_OWNMLT_SELECT.replace("{}", object));
         preparedStatement.setString(1, parid);
         preparedStatement.setInt(2, taxyr);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -216,7 +218,7 @@ public class CamaRepository {
         logger.info("insertOWNMLT " + parcel.getParcelNumber() + ", " + taxyr + ", " + ownseq + ", " + book + ", " + page + ", " + saleskey + ", " + hidename);
         logger.info(buyer.toString());
 
-        preparedStatement = connection.prepareStatement(SQL_OWNMLT);
+        preparedStatement = connection.prepareStatement(SQL_OWNMLT.replace("{}", object));
         preparedStatement.setString(1, parcel.getParcelNumber());
         preparedStatement.setInt(2, taxyr);
         preparedStatement.setInt(3, ownseq);

@@ -1,0 +1,45 @@
+# Drops existing tables, recreates them and executes import.sql
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@TEST
+    username:
+    password:
+    tns: C:/Oracle12c/product/12.1.0/client_2/network/admin
+    object:
+
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store: LEON_PROD.p12
+    key-store-password: JustAppraised
+    keyStoreType: PKCS12
+    keyAlias: leon
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: /health_check
+
+ja:
+  http:
+    auth-token-header-name: Authorization
+    auth-token: 'kiS9taOmTKNde2F4r142D558gyDU5k86NAZiSZfMMz1yhsyR7UVRpak9W2rpRwnx'
+
+logging:
+  path: ./
+  file: cama.log
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    com.data.integration: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#  appenders:
+#  - type: file
+#    currentLogFilename: ./cama.log
+#    archivedLogFilenamePattern: /var/log/paas/console.log-%d.gz
+#    archivedFileCount: 7

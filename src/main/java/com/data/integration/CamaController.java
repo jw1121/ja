@@ -27,27 +27,18 @@ public class CamaController {
     @ApiOperation("Record seller buyer info")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseHeader()
-    public ValidationError createLeon(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
+    public Error createLeon(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
         boolean result = false;
-        ValidationError errors = new ValidationError();
-        List<Error> error = new ArrayList<>();
         try {
             result = camaService.LeonProcess(payload);
         } catch (Exception e) {
             e.printStackTrace();
-            error.add( new Error("400", e.toString()));
-            errors.setFieldErrors(error);
-
-            return errors;
+            return new Error("400", e.toString());
         }
         if(result) {
-            error.add(new Error("200", "successful"));
-            errors.setFieldErrors(error);
-            return errors;
+            return new Error("200", "successful");
         } else{
-            error.add(new Error("400", "unsuccessful"));
-            errors.setFieldErrors(error);
-            return errors;
+            return new Error("400", "unsuccessful");
         }
     }
 

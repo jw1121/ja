@@ -22,6 +22,7 @@ public class SaleData implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
     private String sale_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String recorded_date;
     private String sale_instrument;
     private int total_parcel_count;
