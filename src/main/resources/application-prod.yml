@@ -1,13 +1,14 @@
 # Drops existing tables, recreates them and executes import.sql
 spring:
   datasource:
-    url: jdbc:oracle:thin:@TEST
-    username:
-    password:
+    url: jdbc:oracle:thin:@IASW
+    username: ja_api
+    password: Propapi$6200b
     tns: C:/Oracle12c/product/12.1.0/client_2/network/admin
-    object:
+    object: iasw
 
 server:
+  connection-timeout: 60000
   port: 443
   ssl:
     enabled: true
@@ -32,9 +33,9 @@ logging:
   path: ./
   file: cama.log
   level:
-    root: INFO
-    org.springframework.web: INFO
-    com.data.integration: INFO
+    root: DEBUG
+    org.springframework.web: DEBUG
+    com.data.integration: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

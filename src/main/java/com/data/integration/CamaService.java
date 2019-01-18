@@ -116,7 +116,12 @@ public class CamaService {
                 String saletype = getSaleType(landTable, mainParcel.getParcelNumber());
                 logger.debug("new seq number: {} own1: {} own2 {}", seq, oldown, oldown2);
 
-                camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
+                if(buyerAddressComponent.getBuyerAddressStreetNumber1() > 0) {
+                    camaRepository.updateOWNDAT(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
+                } else {
+                    camaRepository.updateOWNDAT2(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
+                }
+
                 camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), saletype, source, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
                 camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear);
 
@@ -171,9 +176,11 @@ public class CamaService {
     // TODO need to optimize this logic
     private String getSaleType(VacantOrImprovedLandTable landTable, String parcelNumber) {
         if(landTable == null) { return null; }
+        logger.debug(landTable.toString());
 
         for(List<String> value : landTable.getValues()) {
-            if(parcelNumber == value.get(0)) {
+            //logger.debug(value.get(0) + " : " + value.get(1));
+            if(parcelNumber.equalsIgnoreCase(value.get(0))) {
                 return value.get(1);
             }
         }

@@ -34,4 +34,24 @@ public class VacantOrImprovedLandTable {
         this.values = StringConvert.listToUpper(values);
     }
 
+    @Override
+    public String toString() {
+        String header = "";
+        for(String head : headers) {
+            header += head + " ";
+        }
+
+        String kv = "";
+        for(List<String> value : values) {
+            for(String head : value) {
+                kv += head + " ";
+            }
+            kv += "; ";
+        }
+        return "VacantOrImprovedLandTable{" +
+                "inverted=" + inverted +
+                ", headers=" + header +
+                ", values=" + kv +
+                '}';
+    }
 }

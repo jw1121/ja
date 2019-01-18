@@ -10,6 +10,7 @@ spring:
 
 # sample -> https://github.com/indrabasak/spring-tls-example
 server:
+  connection-timeout: 60000
   port: 443
   ssl:
     enabled: true
@@ -17,6 +18,8 @@ server:
     key-store-password: 123456
     keyStoreType: PKCS12
     keyAlias: leon
+#    trust-store: classpath:foo.jks
+#    trust-store-password: password
 
 management:
   endpoints:
@@ -37,7 +40,7 @@ ja:
 
 logging:
   path: ./
-  file: cama.log
+  file: ja_int.log
   level:
     root: DEBUG
     org.springframework.web: DEBUG
@@ -45,8 +48,3 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-#  appenders:
-#  - type: file
-#    currentLogFilename: ./cama.log
-#    archivedLogFilenamePattern: /var/log/paas/console.log-%d.gz
-#    archivedFileCount: 7

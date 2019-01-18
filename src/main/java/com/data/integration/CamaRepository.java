@@ -168,10 +168,60 @@ public class CamaRepository {
         preparedStatement.executeUpdate();
     }
 
+    public void updateOWNDAT2(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, int seq, BuyerNamesComponent buyer, String processor, BuyerAddressComponent address) throws SQLException {
+        logger.debug("updateOWNDAT2 method");
+        logger.info("updateOWNDAT2 with " + parcel.getParcelNumber() + ", " + taxyr + ", " + buyer.getId() + ", " + seq);
+        logger.info(buyer.toString() + address.toString());
+        logger.info(saleskey + ", " + hidename + ", " + book + ", " + page);
+
+        preparedStatement = connection.prepareStatement(SQL_OWNDAT_UPDATE.replace("{}", object));
+        preparedStatement.setString(1, parcel.getParcelNumber());
+        preparedStatement.setInt(2, taxyr);
+        preparedStatement.setInt(3, buyer.getId());
+        preparedStatement.setInt(4, seq); // overwrite existing record and increase this number
+        preparedStatement.setString(5, buyer.getFullName1());
+        preparedStatement.setString(6, buyer.getFullName2());
+        preparedStatement.setString(7, address.getBuyerAddressCareOf());
+        preparedStatement.setString(8, address.getAddressCategory());
+        preparedStatement.setNull(9, Types.INTEGER);
+        preparedStatement.setString(10, address.getBuyerAddressStreetNumber2());
+        preparedStatement.setString(11, address.getBuyerAddressStreetDirectionalPrefix());
+        preparedStatement.setString(12, address.getBuyerAddressStreetName());
+        preparedStatement.setString(13, address.getBuyerAddressStreetSuffix());
+        preparedStatement.setString(14, address.getBuyerAddressStreetDirectionalSuffix());
+        preparedStatement.setString(15, address.getBuyerCity());
+        preparedStatement.setString(16, address.getBuyerState());
+        preparedStatement.setString(17, address.getBuyerCountry());
+        preparedStatement.setString(18, address.getBuyerForeignPostalCode());
+        preparedStatement.setString(19, address.getBuyerAddressSecondaryUnitDesignator());
+        preparedStatement.setString(20, address.getBuyerAddressSecondaryUnitNumber());
+        preparedStatement.setString(21, address.getBuyerAddress1());
+        preparedStatement.setString(22, address.getBuyerAddress2());
+        preparedStatement.setString(23, address.getBuyerAddress3());
+        preparedStatement.setString(24, address.getBuyerZip());
+        preparedStatement.setString(25, address.getBuyerZip4());
+        preparedStatement.setDouble(26, buyer.getBuyerPercentage() * 100);
+        preparedStatement.setInt(27, saleskey);
+        preparedStatement.setString(28, buyer.getBuyerType());
+        preparedStatement.setString(29, buyer.getBuyerType2());
+        preparedStatement.setString(30, buyer.getBuyerType3());
+        preparedStatement.setString(31, buyer.getBuyerType4());
+        preparedStatement.setString(32, hidename);
+        preparedStatement.setString(33, buyer.getBuyerMaritalStatus());
+        preparedStatement.setString(34, null);
+        preparedStatement.setString(35, book);
+        preparedStatement.setString(36, page);
+        preparedStatement.setString(37, address.getBuyerMailingNotificationCode());
+        preparedStatement.setString(38, processor);
+        preparedStatement.setString(39, parcel.getParcelNumber());
+        preparedStatement.setInt(40, taxyr);
+
+        preparedStatement.executeUpdate();
+    }
+
     public void insertSALE(MainParcel parcel, Date saleDt, double stampval, int price, int saleKey, String book, String page, String oldown, String own, String saletype, String source, String steb, int nopar, String instrtype, Date recordDt, String processor, String oldown2, String own2) throws SQLException {
         logger.debug("insertSALE method");
-        logger.info("insertSALE inputs: " + saleDt + ", "+  stampval + ", "+  price + ", "+  saleKey + ", "+  book + ", "+   page + ", "+
-                oldown + ", "+  own + ", "+ source + ", "+  steb + ", "+  nopar + ", "+  instrtype + ", "+  recordDt);
+        logger.info("insertSALE inputs: " + saleDt + ", "+ stampval + ", "+ price + ", "+ saleKey + ", "+ book + ", "+ page + ", "+ oldown + ", "+ own + ", "+ saletype + ", "+ source + ", "+ steb + ", "+ nopar + ", "+ instrtype + ", "+ recordDt + ", "+ processor + ", "+ oldown2 + ", "+ own2);
 
         preparedStatement = connection.prepareStatement(SQL_SALES.replace("{}", object));
         preparedStatement.setString(1, parcel.getParcelNumber());
