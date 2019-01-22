@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 @Repository
@@ -30,16 +31,14 @@ public class CamaRepository {
     final static String SQL_OWNDAT_UPDATE = "UPDATE {}.OWNDAT SET PARID = ?, TAXYR = ?, OWNSEQ = ?, SEQ = ?, OWN1 = ?, OWN2 = ?, CAREOF = ?, ADDRTYPE = ?, ADRNO = ?, ADRADD = ?, ADRDIR = ?, ADRSTR = ?, ADRSUF = ?, ADRSUF2 = ?, CITYNAME = ?, STATECODE = ?, COUNTRY = ?, POSTALCODE = ?, UNITDESC = ?, UNITNO = ?, ADDR1 = ?, ADDR2 = ?, ADDR3 = ?, ZIP1 = ?, ZIP2 = ?, PCTOWN = ?, SALEKEY = ?, OWNTYPE1 = ?, OWNTYPE2 = ?, OWNTYPE3 = ?, OWNTYPE4 = ?, HIDENAME = ?, MARSTAT = ?, OWNNUM = ?,BOOK = ?, PAGE = ?, USER4 = ?, USER8 = ? WHERE PARID = ? AND TAXYR = ?";
     final static String SQL_OWNMLT = "INSERT INTO {}.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM {}.OWNMLT WHERE PARID = ? AND TAXYR = ?";
-    final static String SQL_OWNMLT_UPDATE = "UPDATE TEST.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? ";
+    final static String SQL_OWNMLT_UPDATE = "UPDATE {}.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? ";
     final static String SQL_SALES = "INSERT INTO {}.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     Connection connection = null;
     //Statement statement = null;
     PreparedStatement preparedStatement = null;
 
-
-
-    public void dbConn() {
+    final public void dbConn() {
         //TODO manager
         try {
             logger.debug("DB connection.");
@@ -61,7 +60,7 @@ public class CamaRepository {
         }
     }
 
-    public void commit() throws SQLException {
+    final public void commit() throws SQLException {
         logger.debug("start commit");
         if(connection != null) {
             logger.debug("connection was used.");
@@ -72,7 +71,7 @@ public class CamaRepository {
         }
     }
 
-    public int getNextSeq() throws SQLException {
+    final public int getNextSeq() throws SQLException {
         logger.debug("getNextSeq method");
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select {}.saleseq.nextval as val from dual".replace("{}", object));
@@ -81,7 +80,7 @@ public class CamaRepository {
         return next;
     }
 
-    public HashMap<String, Object> getOWNDAT(String parid, int taxyr) throws SQLException {
+    final public HashMap<String, Object> getOWNDAT(final String parid, final int taxyr) throws SQLException {
         logger.debug("getOWNDAT method");
         logger.info("getOWNDAT with " + parid + ",  " + taxyr);
         preparedStatement = connection.prepareStatement("SELECT * FROM {}.OWNDAT WHERE PARID = ? AND TAXYR = ? ".replace("{}", object));
@@ -106,18 +105,18 @@ public class CamaRepository {
         return result;
     }
 
-    public void deactivatOWNMLT(Date date, String parid, int taxyr) throws SQLException {
+    final public void deactivatOWNMLT(final LocalDate date, final String parid, final int taxyr) throws SQLException {
         logger.debug("deactivatOWNMLT method");
         logger.info("inputs: " + parid + ", " + taxyr);
 
         preparedStatement = connection.prepareStatement(SQL_OWNMLT_UPDATE.replace("{}", object));
-        preparedStatement.setDate(1, date);
+        preparedStatement.setObject(1, date);
         preparedStatement.setString(2, parid);
         preparedStatement.setInt(3, taxyr);
         int resultSet = preparedStatement.executeUpdate();
     }
 
-    public void updateOWNDAT(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, int seq, BuyerNamesComponent buyer, String processor, BuyerAddressComponent address) throws SQLException {
+    final public void updateOWNDAT(final MainParcel parcel, final int taxyr, final String book, final String page, final int saleskey, final String hidename, final int seq, final BuyerNamesComponent buyer, final String processor, final BuyerAddressComponent address) throws SQLException {
         logger.debug("updateOWNDAT method");
         logger.info("updateOWNDAT with " + parcel.getParcelNumber() + ", " + taxyr + ", " + buyer.getId() + ", " + seq);
         logger.info(buyer.toString() + address.toString());
@@ -168,7 +167,7 @@ public class CamaRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void updateOWNDAT2(MainParcel parcel, int taxyr, String book, String page, int saleskey, String hidename, int seq, BuyerNamesComponent buyer, String processor, BuyerAddressComponent address) throws SQLException {
+    final public void updateOWNDAT2(final MainParcel parcel, final int taxyr, final String book, final String page, final int saleskey, final String hidename, final int seq, final BuyerNamesComponent buyer, final String processor, final BuyerAddressComponent address) throws SQLException {
         logger.debug("updateOWNDAT2 method");
         logger.info("updateOWNDAT2 with " + parcel.getParcelNumber() + ", " + taxyr + ", " + buyer.getId() + ", " + seq);
         logger.info(buyer.toString() + address.toString());
@@ -219,13 +218,13 @@ public class CamaRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void insertSALE(MainParcel parcel, Date saleDt, double stampval, int price, int saleKey, String book, String page, String oldown, String own, String saletype, String source, String steb, int nopar, String instrtype, Date recordDt, String processor, String oldown2, String own2) throws SQLException {
+    final public void insertSALE(final MainParcel parcel, final LocalDate saleDt, final double stampval, final int price, final int saleKey, final String book, final String page, final String oldown, final String own, final String saletype, final String source, final String steb, final int nopar, final String instrtype, final LocalDate recordDt, final String processor, final String oldown2, final String own2) throws SQLException {
         logger.debug("insertSALE method");
         logger.info("insertSALE inputs: " + saleDt + ", "+ stampval + ", "+ price + ", "+ saleKey + ", "+ book + ", "+ page + ", "+ oldown + ", "+ own + ", "+ saletype + ", "+ source + ", "+ steb + ", "+ nopar + ", "+ instrtype + ", "+ recordDt + ", "+ processor + ", "+ oldown2 + ", "+ own2);
 
         preparedStatement = connection.prepareStatement(SQL_SALES.replace("{}", object));
         preparedStatement.setString(1, parcel.getParcelNumber());
-        preparedStatement.setDate(2, saleDt);
+        preparedStatement.setObject(2, saleDt);
         preparedStatement.setDouble(3, stampval);
         preparedStatement.setInt(4, price);
         preparedStatement.setInt(5, 0);
@@ -239,7 +238,7 @@ public class CamaRepository {
         preparedStatement.setString(13, steb);
         preparedStatement.setInt(14, nopar);
         preparedStatement.setString(15, instrtype);
-        preparedStatement.setDate(16, recordDt);
+        preparedStatement.setObject(16, recordDt);
         preparedStatement.setString(17, processor);
         preparedStatement.setString(18, oldown2);
         preparedStatement.setString(19, own2);
@@ -247,7 +246,7 @@ public class CamaRepository {
         preparedStatement.execute();
     }
 
-    public int getOWNMLT(String parid, int taxyr) throws SQLException {
+    final public int getOWNMLT(final String parid, final int taxyr) throws SQLException {
         logger.debug("getOWNMLT method");
         logger.info("getOWNMLT using. " + parid + ",  " + taxyr);
 
@@ -263,7 +262,7 @@ public class CamaRepository {
         return result;
     }
 
-    public void insertOWNMLT(MainParcel parcel, int taxyr, int ownseq, String book, String page, int saleskey, String hidename, String processor, BuyerNamesComponent buyer) throws SQLException {
+    final public void insertOWNMLT(final MainParcel parcel, final int taxyr, final int ownseq, final String book, final String page, final int saleskey, final String hidename, final String processor, final BuyerNamesComponent buyer) throws SQLException {
         logger.debug("insertOWNMLT method");
         logger.info("insertOWNMLT " + parcel.getParcelNumber() + ", " + taxyr + ", " + ownseq + ", " + book + ", " + page + ", " + saleskey + ", " + hidename);
         logger.info(buyer.toString());

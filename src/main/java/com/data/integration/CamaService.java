@@ -11,6 +11,10 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +23,7 @@ public class CamaService {
     final static Logger logger = LoggerFactory.getLogger(CamaService.class);
 
     final static String dateFormat = "yyyy-MM-dd";
-    final static String dateFormatmonth = "dd-MMM-yy";
+    final static String dateFormatMonth = "dd-MMM-yy";
 
     @Autowired
     CamaRepository camaRepository;
@@ -54,7 +58,7 @@ public class CamaService {
      * - set SALES.OLDOWN2 with the prior owners OWNDAT.OWN2 data (do this any time OWNDAT.OWN2 has an entry) (new logic)
      * - set SALES.OWN2 with the new owners OWNDAT.OWN2 data (do this any time there is any new data going into OWNDAT.OWN2) (new logic)
      */
-    public boolean LeonProcess(Leon payload) throws Exception {
+    public boolean LeonProcess(final Leon payload) throws Exception {
         try {
             if (payload == null) { throw new CamaException("Empty payload."); }
             SaleData saleData = payload.getSaleData();
@@ -86,8 +90,8 @@ public class CamaService {
             int taxYear = saleData.getCama_tax_year();
             double stampAmount = saleData.getDocstamp_amount();
             int price = saleData.getDerived_sale_price_florida();
-            Date saleDate = toSQLDate(saleData.getSale_date(), dateFormat);
-            Date recordDate = toSQLDate(saleData.getRecorded_date(), dateFormat);
+            LocalDate saleDate = toSQLDate(saleData.getSale_date(), dateFormat);
+            LocalDate recordDate = toSQLDate(saleData.getRecorded_date(), dateFormat);
             String instrtype = saleData.getSale_instrument();
             int parcelCount = saleData.getTotal_parcel_count();
             String processor = null;
@@ -123,7 +127,7 @@ public class CamaService {
                 }
 
                 camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), saletype, source, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
-                camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatmonth), mainParcel.getParcelNumber(), taxYear);
+                camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatMonth), mainParcel.getParcelNumber(), taxYear);
 
                 int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);
                 for(int i = 1; buyerNamesComponents.size() > i; i++) {
@@ -144,22 +148,18 @@ public class CamaService {
         return true;
     }
 
-    private Date toSQLDate(String date, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
+    private LocalDate toSQLDate(String date, String format) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        LocalDate sqldate = LocalDate.parse(date, formatter);
 
-        java.util.Date parsed = null;
-        try {
-            parsed = sdf.parse(date);
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-            throw new CamaException("Bad date format.");
-        }
-        return new java.sql.Date(parsed.getTime());
+        return sqldate;
     }
 
-    private Date getcurrentDate(String format) {
-        java.util.Date date = new java.util.Date();
-        return new java.sql.Date(date.getTime());
+    private LocalDate getcurrentDate(String format) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        LocalDate sqldate = LocalDate.parse(LocalDate.now().toString(), formatter);
+
+        return sqldate;
     }
 
     private String getProcessor(String email) {

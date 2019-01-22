@@ -2,6 +2,7 @@ package com.data.integration.model;
 
 import com.data.integration.utility.StringConvert;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
@@ -26,10 +27,11 @@ public class SaleData implements Serializable {
     private String recorded_date;
     private String sale_instrument;
     private int total_parcel_count;
-    @Range(min = 999, max = 9999, message = "Please select valid year")
+    @Range(min = 1900, max = 2100, message = "Please select valid year")
     private int cama_tax_year;
     @NotNull
     @Valid
+    @JsonProperty("parcel_match_cards_component")
     private ParcelMatchCardsComponent parcel_match_cards_component;
     @NotNull
     private BuyerAddressComponent buyer_address_component;
