@@ -145,19 +145,19 @@ public class CamaService {
         return true;
     }
 
-    private LocalDate toSQLDate(String date, String format) {
+    final private LocalDate toSQLDate(final String date, final String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         LocalDate sqldate = LocalDate.parse(date, formatter);
 
         return sqldate;
     }
 
-    private String getcurrentDate(String format) {
+    final private String getcurrentDate(final String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return LocalDate.now().format(formatter);
     }
 
-    private String getProcessor(String email) {
+    final private String getProcessor(final String email) {
         String[] token = null;
         if(email.indexOf("@") > 0) {
             token = email.split("@");
@@ -168,7 +168,7 @@ public class CamaService {
         return null;
     }
 
-    private String getSaleType(VacantOrImprovedLandTable landTable, String parcelNumber) {
+    final private String getSaleType(final VacantOrImprovedLandTable landTable, final String parcelNumber) {
         if(landTable == null) { return null; }
         logger.debug(landTable.toString());
 
