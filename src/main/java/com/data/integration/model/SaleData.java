@@ -2,14 +2,17 @@ package com.data.integration.model;
 
 import com.data.integration.utility.StringConvert;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SaleData implements Serializable {
     private final static long serialVersionUID = 1446924413947058634L;
 
@@ -18,25 +21,24 @@ public class SaleData implements Serializable {
     private String book;
     @Size(max = 8, message = "Invalid value length.")
     private String page;
-    private double docstamp_amount;
-    private int derived_sale_price_florida;
+    private double docstampAmount;
+    private int derivedSalePriceFlorida;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
-    private String sale_date;
+    private String saleDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String recorded_date;
-    private String sale_instrument;
-    private int total_parcel_count;
+    private String recordedDate;
+    private String saleInstrument;
+    private int totalParcelCount;
     @Range(min = 1900, max = 2100, message = "Please select valid year")
-    private int cama_tax_year;
+    private int camaTaxYear;
     @NotNull
     @Valid
-    @JsonProperty("parcel_match_cards_component")
-    private ParcelMatchCardsComponent parcel_match_cards_component;
+    private ParcelMatchCardsComponent parcelMatchCardsComponent;
     @NotNull
-    private BuyerAddressComponent buyer_address_component;
-    private List<BuyerNamesComponent> buyer_names_component = null;
-    private VacantOrImprovedLandTable vacant_or_improved_land_table;
+    private BuyerAddressComponent buyerAddressComponent;
+    private List<BuyerNamesComponent> buyerNamesComponent = null;
+    private VacantOrImprovedLandTable vacantOrImprovedLandTable;
 
     public String getBook() {
         return book;
@@ -54,87 +56,87 @@ public class SaleData implements Serializable {
         this.page = StringConvert.toUpper(page);
     }
 
-    public double getDocstamp_amount() {
-        return docstamp_amount;
+    public double getDocstampAmount() {
+        return docstampAmount;
     }
 
-    public void setDocstamp_amount(double docstamp_amount) {
-        this.docstamp_amount = docstamp_amount;
+    public void setDocstampAmount(double docstampAmount) {
+        this.docstampAmount = docstampAmount;
     }
 
-    public int getDerived_sale_price_florida() {
-        return derived_sale_price_florida;
+    public int getDerivedSalePriceFlorida() {
+        return derivedSalePriceFlorida;
     }
 
-    public void setDerived_sale_price_florida(int derived_sale_price_florida) {
-        this.derived_sale_price_florida = derived_sale_price_florida;
+    public void setDerivedSalePriceFlorida(int derivedSalePriceFlorida) {
+        this.derivedSalePriceFlorida = derivedSalePriceFlorida;
     }
 
-    public String getSale_date() {
-        return sale_date;
+    public String getSaleDate() {
+        return saleDate;
     }
 
-    public void setSale_date(String sale_date) {
-        this.sale_date = StringConvert.toUpper(sale_date);
+    public void setSaleDate(String saleDate) {
+        this.saleDate = StringConvert.toUpper(saleDate);
     }
 
-    public String getRecorded_date() {
-        return recorded_date;
+    public String getRecordedDate() {
+        return recordedDate;
     }
 
-    public void setRecorded_date(String recorded_date) {
-        this.recorded_date = StringConvert.toUpper(recorded_date);
+    public void setRecordedDate(String recordedDate) {
+        this.recordedDate = StringConvert.toUpper(recordedDate);
     }
 
-    public String getSale_instrument() {
-        return sale_instrument;
+    public String getSaleInstrument() {
+        return saleInstrument;
     }
 
-    public void setSale_instrument(String sale_instrument) {
-        this.sale_instrument = StringConvert.toUpper(sale_instrument);
+    public void setSaleInstrument(String saleInstrument) {
+        this.saleInstrument = StringConvert.toUpper(saleInstrument);
     }
 
-    public int getTotal_parcel_count() {
-        return total_parcel_count;
+    public int getTotalParcelCount() {
+        return totalParcelCount;
     }
 
-    public void setTotal_parcel_count(int total_parcel_count) {
-        this.total_parcel_count = total_parcel_count;
+    public void setTotalParcelCount(int totalParcelCount) {
+        this.totalParcelCount = totalParcelCount;
     }
 
-    public int getCama_tax_year() { return cama_tax_year; }
+    public int getCamaTaxYear() { return camaTaxYear; }
 
-    public void setCama_tax_year(int cama_tax_year) { this.cama_tax_year = cama_tax_year; }
+    public void setCamaTaxYear(int camaTaxYear) { this.camaTaxYear = camaTaxYear; }
 
-    public ParcelMatchCardsComponent getParcel_match_cards_component() {
-        return parcel_match_cards_component;
+    public ParcelMatchCardsComponent getParcelMatchCardsComponent() {
+        return parcelMatchCardsComponent;
     }
 
-    public void setParcel_match_cards_component(ParcelMatchCardsComponent parcel_match_cards_component) {
-        this.parcel_match_cards_component = parcel_match_cards_component;
+    public void setParcelMatchCardsComponent(ParcelMatchCardsComponent parcelMatchCardsComponent) {
+        this.parcelMatchCardsComponent = parcelMatchCardsComponent;
     }
 
-    public BuyerAddressComponent getBuyer_address_component() {
-        return buyer_address_component;
+    public BuyerAddressComponent getBuyerAddressComponent() {
+        return buyerAddressComponent;
     }
 
-    public void setBuyer_address_component(BuyerAddressComponent buyer_address_component) {
-        this.buyer_address_component = buyer_address_component;
+    public void setBuyerAddressComponent(BuyerAddressComponent buyerAddressComponent) {
+        this.buyerAddressComponent = buyerAddressComponent;
     }
 
-    public List<BuyerNamesComponent> getBuyer_names_component() {
-        return buyer_names_component;
+    public List<BuyerNamesComponent> getBuyerNamesComponent() {
+        return buyerNamesComponent;
     }
 
-    public void setBuyer_names_component(List<BuyerNamesComponent> buyer_names_component) {
-        this.buyer_names_component = buyer_names_component;
+    public void setBuyerNamesComponent(List<BuyerNamesComponent> buyerNamesComponent) {
+        this.buyerNamesComponent = buyerNamesComponent;
     }
 
-    public VacantOrImprovedLandTable getVacant_or_improved_land_table() {
-        return vacant_or_improved_land_table;
+    public VacantOrImprovedLandTable getVacantOrImprovedLandTable() {
+        return vacantOrImprovedLandTable;
     }
 
-    public void setVacant_or_improved_land_table(VacantOrImprovedLandTable vacant_or_improved_land_table) {
-        this.vacant_or_improved_land_table = vacant_or_improved_land_table;
+    public void setVacantOrImprovedLandTable(VacantOrImprovedLandTable vacantOrImprovedLandTable) {
+        this.vacantOrImprovedLandTable = vacantOrImprovedLandTable;
     }
 }

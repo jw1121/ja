@@ -7,14 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,10 +61,10 @@ public class CamaService {
 
             UserData userData = payload.getUserData();
 
-            BuyerAddressComponent buyerAddressComponent = saleData.getBuyer_address_component();
-            List<BuyerNamesComponent> buyerNamesComponents = saleData.getBuyer_names_component();
-            ParcelMatchCardsComponent parcelMatchCardsComponent = saleData.getParcel_match_cards_component();
-            VacantOrImprovedLandTable landTable = saleData.getVacant_or_improved_land_table();
+            BuyerAddressComponent buyerAddressComponent = saleData.getBuyerAddressComponent();
+            List<BuyerNamesComponent> buyerNamesComponents = saleData.getBuyerNamesComponent();
+            ParcelMatchCardsComponent parcelMatchCardsComponent = saleData.getParcelMatchCardsComponent();
+            VacantOrImprovedLandTable landTable = saleData.getVacantOrImprovedLandTable();
 
             if( buyerAddressComponent == null || buyerNamesComponents == null || parcelMatchCardsComponent == null) { return false; }
 
@@ -87,13 +82,13 @@ public class CamaService {
             BuyerNamesComponent firstBuyer = buyerNamesComponents.get(0);
             String book = saleData.getBook();
             String page = saleData.getPage();
-            int taxYear = saleData.getCama_tax_year();
-            double stampAmount = saleData.getDocstamp_amount();
-            int price = saleData.getDerived_sale_price_florida();
-            LocalDate saleDate = toSQLDate(saleData.getSale_date(), dateFormat);
-            LocalDate recordDate = toSQLDate(saleData.getRecorded_date(), dateFormat);
-            String instrtype = saleData.getSale_instrument();
-            int parcelCount = saleData.getTotal_parcel_count();
+            int taxYear = saleData.getCamaTaxYear();
+            double stampAmount = saleData.getDocstampAmount();
+            int price = saleData.getDerivedSalePriceFlorida();
+            LocalDate saleDate = toSQLDate(saleData.getSaleDate(), dateFormat);
+            LocalDate recordDate = toSQLDate(saleData.getRecordedDate(), dateFormat);
+            String instrtype = saleData.getSaleInstrument();
+            int parcelCount = saleData.getTotalParcelCount();
             String processor = null;
             if( userData != null) {
                 processor = getProcessor(userData.getEmail());
@@ -139,10 +134,12 @@ public class CamaService {
                 }
             }
             camaRepository.commit();
+
         } catch (SQLException e) {
-            //TODO log to file
             e.printStackTrace();
             throw new CamaException(e.getMessage(), e);
+        } finally {
+            camaRepository.close();
         }
 
         return true;
@@ -155,11 +152,9 @@ public class CamaService {
         return sqldate;
     }
 
-    private LocalDate getcurrentDate(String format) {
+    private String getcurrentDate(String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        LocalDate sqldate = LocalDate.parse(LocalDate.now().toString(), formatter);
-
-        return sqldate;
+        return LocalDate.now().format(formatter);
     }
 
     private String getProcessor(String email) {
@@ -173,7 +168,6 @@ public class CamaService {
         return null;
     }
 
-    // TODO need to optimize this logic
     private String getSaleType(VacantOrImprovedLandTable landTable, String parcelNumber) {
         if(landTable == null) { return null; }
         logger.debug(landTable.toString());
