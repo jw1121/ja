@@ -93,6 +93,10 @@ public class CamaService {
             if( userData != null) {
                 processor = getProcessor(userData.getEmail());
             }
+            String note1 = saleData.getDocumentNotes();
+            String note2 = saleData.getDocumentNotes2();
+            String note3 = saleData.getDocumentNotes3();
+            String note4 = saleData.getDocumentNotes4();
 
             int seq = 0;
             String source = "D";
@@ -121,7 +125,9 @@ public class CamaService {
                     camaRepository.updateOWNDAT2(mainParcel, taxYear, book, page, salesKey, hideName, ++seq, firstBuyer, processor, buyerAddressComponent);
                 }
 
-                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown, firstBuyer.getFullName1(), saletype, source, steb, parcelCount, instrtype, recordDate, processor, oldown2, firstBuyer.getFullName2());
+                camaRepository.insertSALE(mainParcel, saleDate, stampAmount, price, salesKey, book, page, oldown,
+                        firstBuyer.getFullName1(), saletype, source, steb, parcelCount, instrtype, recordDate, processor,
+                        oldown2, firstBuyer.getFullName2(), note1, note2, note3, note4);
                 camaRepository.deactivatOWNMLT(getcurrentDate(dateFormatMonth), mainParcel.getParcelNumber(), taxYear);
 
                 int ownSEQ = camaRepository.getOWNMLT(mainParcel.getParcelNumber(), taxYear);

@@ -34,7 +34,7 @@ final public class CamaRepository {
     final static String SQL_OWNMLT = "INSERT INTO {}.OWNMLT (PARID, TAXYR, OWNSEQ, OWN1, OWN2, PCTOWN, SALEKEY, OWNTYPE1, OWNTYPE2, OWNTYPE3, OWNTYPE4, HIDENAME, MARSTAT, BOOK, PAGE, USER8) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     final static String SQL_OWNMLT_SELECT = "SELECT MAX(OWNSEQ) FROM {}.OWNMLT WHERE PARID = ? AND TAXYR = ?";
     final static String SQL_OWNMLT_UPDATE = "UPDATE {}.OWNMLT SET deactivat = ? WHERE PARID = ? AND TAXYR = ? ";
-    final static String SQL_SALES = "INSERT INTO {}.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    final static String SQL_SALES = "INSERT INTO {}.SALES (PARID, SALEDT, STAMPVAL, PRICE, SEQ, SALEKEY, BOOK, PAGE, OLDOWN, OWN1, SOURCE, SALETYPE, STEB, NOPAR, INSTRTYP, RECORDDT, USER11, OLDOWN2, OWN2, NOTE1, NOTE2, NOTE3, NOTE4) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     Connection connection = null;
 
@@ -252,9 +252,17 @@ final public class CamaRepository {
         }
     }
 
-    final public void insertSALE(final MainParcel parcel, final LocalDate saleDt, final double stampval, final int price, final int saleKey, final String book, final String page, final String oldown, final String own, final String saletype, final String source, final String steb, final int nopar, final String instrtype, final LocalDate recordDt, final String processor, final String oldown2, final String own2) throws SQLException {
+    final public void insertSALE(final MainParcel parcel, final LocalDate saleDt, final double stampval, final int price,
+                                 final int saleKey, final String book, final String page, final String oldown,
+                                 final String own, final String saletype, final String source, final String steb,
+                                 final int nopar, final String instrtype, final LocalDate recordDt, final String processor,
+                                 final String oldown2, final String own2, final String note1, final String note2,
+                                 final String note3, final String note4) throws SQLException {
         logger.debug("insertSALE method");
-        logger.info("insertSALE inputs: " + saleDt + ", "+ stampval + ", "+ price + ", "+ saleKey + ", "+ book + ", "+ page + ", "+ oldown + ", "+ own + ", "+ saletype + ", "+ source + ", "+ steb + ", "+ nopar + ", "+ instrtype + ", "+ recordDt + ", "+ processor + ", "+ oldown2 + ", "+ own2);
+        logger.info("insertSALE inputs: " + saleDt + ", "+ stampval + ", "+ price + ", "+ saleKey + ", "+ book + ", "+
+                page + ", "+ oldown + ", "+ own + ", "+ saletype + ", "+ source + ", "+ steb + ", "+ nopar + ", "+
+                instrtype + ", "+ recordDt + ", "+ processor + ", "+ oldown2 + ", "+ own2 + ", "+ note1 + ", "+
+                note2 + ", "+ note3 + ", "+ note4);
 
         PreparedStatement preparedStatement = null;
         try {
@@ -278,6 +286,10 @@ final public class CamaRepository {
             preparedStatement.setString(17, processor);
             preparedStatement.setString(18, oldown2);
             preparedStatement.setString(19, own2);
+            preparedStatement.setString(20, note1);
+            preparedStatement.setString(21, note2);
+            preparedStatement.setString(22, note3);
+            preparedStatement.setString(23, note4);
 
             preparedStatement.execute();
         } finally {
