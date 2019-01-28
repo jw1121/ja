@@ -1,4 +1,4 @@
-package com.data.integration;
+package com.data.integration.validation;
 
 public class Error {
     private String errorCode;

@@ -1,6 +1,7 @@
 package com.data.integration;
 
 import com.data.integration.model.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.data.integration.validation.Constant.*;
 
 @Service
 public class CamaService {
@@ -53,11 +56,11 @@ public class CamaService {
      * - set SALES.OLDOWN2 with the prior owners OWNDAT.OWN2 data (do this any time OWNDAT.OWN2 has an entry) (new logic)
      * - set SALES.OWN2 with the new owners OWNDAT.OWN2 data (do this any time there is any new data going into OWNDAT.OWN2) (new logic)
      */
-    public boolean LeonProcess(final Leon payload) throws Exception {
+    public boolean LeonProcess(final Leon payload) {
         try {
-            if (payload == null) { throw new CamaException("Empty payload."); }
+            if (payload == null) { throw new CamaException(nullFieldCode, nullFieldMessage.replace("{}", "payload")); }
             SaleData saleData = payload.getSaleData();
-            if (saleData == null) { throw new CamaException("Empty sale date."); }
+            if (saleData == null) { throw new CamaException(nullFieldCode, nullFieldMessage.replace("{}", "sale data")); }
 
             UserData userData = payload.getUserData();
 
@@ -71,10 +74,10 @@ public class CamaService {
             List<MainParcel> mainParcels = null;
             if(parcelMatchCardsComponent != null) {
                 mainParcels = parcelMatchCardsComponent.getMainParcels();
-                if(mainParcels == null) { throw new CamaException("Empty parcel info."); }
+                if(mainParcels == null) { throw new CamaException(nullFieldCode, nullFieldMessage.replace("{}", "parcel")); }
                 for(MainParcel mainParcel : mainParcels) {
                     if(StringUtils.isEmpty(mainParcel.getParcelNumber())) {
-                        throw new CamaException("parcel number is required.");
+                        throw new CamaException(nullFieldCode, nullFieldMessage.replace("{}","parcel number"));
                     }
                 }
             }
@@ -104,10 +107,10 @@ public class CamaService {
             for(MainParcel mainParcel : mainParcels) {
                 int salesKey = camaRepository.getNextSeq();
                 logger.debug("SalesKey: " + salesKey);
-                if(salesKey < 1) { throw new CamaException("Something wrong with saleKey."); }
+                if(salesKey < 1) { throw new CamaException(UnknownErrorCode, "Something wrong with saleKey."); }
 
                 HashMap<String, Object> oldOWNDAT = camaRepository.getOWNDAT(mainParcel.getParcelNumber(), taxYear);
-                if(oldOWNDAT.isEmpty()) { throw new CamaException("Existing OWNDAT record was not found. "+ mainParcel.getParcelNumber() + "-"  + taxYear);}
+                if(oldOWNDAT.isEmpty()) { throw new CamaException(UnknownErrorCode, "Existing OWNDAT record was not found. "+ mainParcel.getParcelNumber() + "-"  + taxYear);}
 
                 seq = (int) oldOWNDAT.get("seq");
                 String oldown = (String) oldOWNDAT.get("own1");
@@ -135,11 +138,15 @@ public class CamaService {
             }
             camaRepository.commit();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new CamaException(e.getMessage(), e);
+            throw new CamaException(UnknownErrorCode, e.getMessage(), e);
         } finally {
-            camaRepository.close();
+            try {
+                camaRepository.close();
+            } catch (SQLException e) {
+                throw new CamaException(UnknownErrorCode, e.getMessage(), e);
+            }
         }
 
         return true;

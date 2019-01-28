@@ -13,6 +13,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import static com.data.integration.validation.Constant.*;
+
 @Repository
 @Scope("prototype")
 final public class CamaRepository {
@@ -47,13 +49,11 @@ final public class CamaRepository {
             connection = DriverManager.getConnection(url, user, pass);
             connection.setAutoCommit(false);
         } catch (ClassNotFoundException e) {
-            logger.debug("Where is your Oracle JDBC Driver?");
             e.printStackTrace();
-            return;
+            throw new CamaException("49999", "Could not connect to the database", e);
         } catch (SQLException e) {
-            logger.debug("Connection Failed! Check output console");
             e.printStackTrace();
-            return;
+            throw new CamaException("49999", "Could not connect to the database", e);
         }
         if (connection == null) {
             logger.debug("Failed to make connection!");
@@ -115,7 +115,7 @@ final public class CamaRepository {
                 rowCount++;
             }
             if (rowCount > 1) {
-                new CamaException("Multiple OWNDAT record was found:" + parid + "-" + taxyr);
+                new CamaException(UnknownErrorCode, "Multiple OWNDAT record was found:" + parid + "-" + taxyr);
             }
 
             return result;

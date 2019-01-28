@@ -16,26 +16,27 @@ import java.util.List;
 public class SaleData implements Serializable {
     private final static long serialVersionUID = 1446924413947058634L;
 
-    @NotNull
-    @Size(max = 8, message = "Invalid value length.")
+    @NotNull(message = "40001")
+    @Size(max = 8, message = "40003")
     private String book;
-    @Size(max = 8, message = "Invalid value length.")
+    @Size(max = 8, message = "40003")
     private String page;
     private double docstampAmount;
     private int derivedSalePriceFlorida;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @NotNull
+    @NotNull(message = "40001")
     private String saleDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String recordedDate;
     private String saleInstrument;
     private int totalParcelCount;
-    @Range(min = 1900, max = 2100, message = "Please select valid year")
+    @NotNull(message = "40001")
+    @Range(min = 1900, max = 2100, message = "40005")
     private int camaTaxYear;
-    @NotNull
+    @NotNull(message = "40001")
     @Valid
     private ParcelMatchCardsComponent parcelMatchCardsComponent;
-    @NotNull
+    @NotNull(message = "40001")
     private BuyerAddressComponent buyerAddressComponent;
     private List<BuyerNamesComponent> buyerNamesComponent = null;
     private VacantOrImprovedLandTable vacantOrImprovedLandTable;

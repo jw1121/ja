@@ -8,12 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/ja")
@@ -25,21 +23,11 @@ public class CamaController {
 
     @RequestMapping(value = "/import", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Record seller buyer info")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseHeader()
-    public Error createLeon(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
-        boolean result = false;
-        try {
-            result = camaService.LeonProcess(payload);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Error("400", e.toString());
-        }
-        if(result) {
-            return new Error("200", "successful");
-        } else{
-            return new Error("400", "unsuccessful");
-        }
+    public ResponseEntity createLeon(@RequestHeader(value="Authorization") String token, @Valid @RequestBody Leon payload) {
+        camaService.LeonProcess(payload);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = "text/html")

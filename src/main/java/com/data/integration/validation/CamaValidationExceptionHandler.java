@@ -1,4 +1,4 @@
-package com.data.integration;
+package com.data.integration.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.Locale;
 
+import static com.data.integration.validation.Constant.message;
+
 @ControllerAdvice
-public class ValidationErrorHandler {
+public class CamaValidationExceptionHandler {
     private MessageSource messageSource;
 
     @Autowired
-    public ValidationErrorHandler(MessageSource messageSource) {
+    public CamaValidationExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
@@ -32,9 +34,7 @@ public class ValidationErrorHandler {
         List<FieldError> fieldErrors = result.getFieldErrors();
 
         FieldError fieldError = fieldErrors.get(0);
-        String localizedErrorMessage = resolveLocalizedErrorMessage(fieldError);
-
-        return new Error(fieldError.getField(), localizedErrorMessage);
+        return new Error(fieldError.getDefaultMessage(), resolveMessage(fieldError));
     }
 
 //    private ValidationError processFieldErrors(List<FieldError> fieldErrors) {
@@ -47,6 +47,10 @@ public class ValidationErrorHandler {
 //
 //        return error;
 //    }
+
+    private  String resolveMessage(FieldError fieldError) {
+        return message.get(fieldError.getDefaultMessage()).replace("{}", fieldError.getField());
+    }
 
     private String resolveLocalizedErrorMessage(FieldError fieldError) {
         Locale currentLocale =  LocaleContextHolder.getLocale();

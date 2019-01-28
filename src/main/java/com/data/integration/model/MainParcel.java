@@ -2,6 +2,7 @@ package com.data.integration.model;
 
 import com.data.integration.utility.StringConvert;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class MainParcel implements Serializable {
     private int matchScore;
     private List<String> ownerNames = null;
     private List<String> ownerTypes = null;
+    @NotNull(message = "40001")
     private String parcelNumber;
     private String sourceId;
 

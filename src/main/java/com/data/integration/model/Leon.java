@@ -7,8 +7,9 @@ import java.io.Serializable;
 public class Leon implements Serializable {
     private final static long serialVersionUID = 1808490387764442238L;
 
+    @Valid
     private UserData userData;
-    @NotNull(message = "SaleData is required.")
+    @NotNull(message = "40001")
     @Valid
     private SaleData saleData;
 
