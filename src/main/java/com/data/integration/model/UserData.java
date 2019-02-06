@@ -4,14 +4,12 @@ import com.data.integration.utility.StringConvert;
 
 import java.io.Serializable;
 
-public class UserData implements Serializable
-{
+public class UserData implements Serializable {
+    private final static long serialVersionUID = -4688958938270901928L;
 
     private String email;
     private String firstName;
     private String lastName;
-
-    private final static long serialVersionUID = -4688958938270901928L;
 
     public String getEmail() {
         return email;
@@ -37,4 +35,12 @@ public class UserData implements Serializable
         this.lastName = StringConvert.toUpper(lastName);
     }
 
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

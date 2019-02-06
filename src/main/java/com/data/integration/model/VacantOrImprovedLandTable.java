@@ -2,9 +2,11 @@ package com.data.integration.model;
 
 import com.data.integration.utility.StringConvert;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class VacantOrImprovedLandTable {
+public class VacantOrImprovedLandTable implements Serializable {
+    private final static long serialVersionUID = 1628458930270201928L;
 
     private boolean inverted;
     private List<String> headers = null;

@@ -180,4 +180,27 @@ public class SaleData implements Serializable {
     public void setDocumentNotes4(String documentNotes4) {
         this.documentNotes4 = StringConvert.toUpper(documentNotes4);
     }
+
+    @Override
+    public String toString() {
+        return "SaleData{" +
+                "book='" + book + '\'' +
+                ", page='" + page + '\'' +
+                ", docstampAmount=" + docstampAmount +
+                ", derivedSalePriceFlorida=" + derivedSalePriceFlorida +
+                ", saleDate='" + saleDate + '\'' +
+                ", recordedDate='" + recordedDate + '\'' +
+                ", saleInstrument='" + saleInstrument + '\'' +
+                ", totalParcelCount=" + totalParcelCount +
+                ", camaTaxYear=" + camaTaxYear +
+                ", parcelMatchCardsComponent=" + parcelMatchCardsComponent +
+                ", buyerAddressComponent=" + buyerAddressComponent +
+                ", buyerNamesComponent=" + buyerNamesComponent +
+                ", vacantOrImprovedLandTable=" + vacantOrImprovedLandTable +
+                ", documentNotes='" + documentNotes + '\'' +
+                ", documentNotes2='" + documentNotes2 + '\'' +
+                ", documentNotes3='" + documentNotes3 + '\'' +
+                ", documentNotes4='" + documentNotes4 + '\'' +
+                '}';
+    }
 }

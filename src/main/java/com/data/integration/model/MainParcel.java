@@ -16,7 +16,6 @@ public class MainParcel implements Serializable {
     private String parcelNumber;
     private String sourceId;
 
-
     public int getId() {
         return id;
     }

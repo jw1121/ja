@@ -93,6 +93,18 @@ final public class CamaRepository {
         return next;
     }
 
+    final public int getThisYear()  throws SQLException {
+        logger.debug("getThisYear method");
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select THISYEAR from {}.AASYS".replace("{}", object));
+        resultSet.next();
+        int year = resultSet.getInt("THISYEAR");
+
+        statement.close();
+
+        return year;
+    }
+
     final public HashMap<String, Object> getOWNDAT(final String parid, final int taxyr) throws SQLException {
         logger.debug("getOWNDAT method");
         logger.info("getOWNDAT with " + parid + ",  " + taxyr);

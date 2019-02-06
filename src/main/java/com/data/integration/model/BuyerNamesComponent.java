@@ -4,8 +4,8 @@ import com.data.integration.utility.StringConvert;
 
 import java.io.Serializable;
 
-public class BuyerNamesComponent implements Serializable
-{
+public class BuyerNamesComponent implements Serializable {
+    private final static long serialVersionUID = 2200930421120281414L;
 
     private int id;
     private String fullName1;
@@ -16,7 +16,6 @@ public class BuyerNamesComponent implements Serializable
     private String buyerType3;
     private String buyerType4;
     private String buyerMaritalStatus;
-    private final static long serialVersionUID = 2200930421120281414L;
 
     public int getId() {
         return id;

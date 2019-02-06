@@ -4,8 +4,8 @@ import com.data.integration.utility.StringConvert;
 
 import java.io.Serializable;
 
-public class BuyerAddressComponent implements Serializable
-{
+public class BuyerAddressComponent implements Serializable {
+    private final static long serialVersionUID = 6717336087675580297L;
 
     private String buyerAddressCareOf;
     private String addressCategory;
@@ -27,7 +27,6 @@ public class BuyerAddressComponent implements Serializable
     private String buyerZip;
     private String buyerZip4;
     private String buyerMailingNotificationCode;
-    private final static long serialVersionUID = 6717336087675580297L;
 
     public String getBuyerAddressCareOf() {
         return buyerAddressCareOf;

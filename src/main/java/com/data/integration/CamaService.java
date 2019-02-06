@@ -82,7 +82,6 @@ public class CamaService {
             BuyerNamesComponent firstBuyer = buyerNamesComponents.get(0);
             String book = saleData.getBook();
             String page = saleData.getPage();
-            int taxYear = saleData.getCamaTaxYear();
             double stampAmount = saleData.getDocstampAmount();
             int price = saleData.getDerivedSalePriceFlorida();
             LocalDate saleDate = toSQLDate(saleData.getSaleDate(), dateFormat);
@@ -104,6 +103,8 @@ public class CamaService {
             String hideName = "N";
 
             camaRepository.dbConn();
+
+            int taxYear = camaRepository.getThisYear();
 
             for(MainParcel mainParcel : mainParcels) {
                 int salesKey = camaRepository.getNextSeq();

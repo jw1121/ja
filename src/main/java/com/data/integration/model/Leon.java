@@ -28,4 +28,11 @@ public class Leon implements Serializable {
         this.saleData = saleData;
     }
 
+    @Override
+    public String toString() {
+        return "Leon{" +
+                "userData=" + userData +
+                ", saleData=" + saleData +
+                '}';
+    }
 }
